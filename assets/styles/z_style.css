@@ -1,0 +1,117 @@
+/* line 56, logo/*.png */
+.logo-sprite, .logo-onecoin-logo1, .logo-onecoin-logo2 {
+  background-image: url('/../../images/logo-s54c12e9630.png');
+  background-repeat: no-repeat;
+}
+
+/* line 84, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/utilities/sprites/_base.scss */
+.logo-onecoin-logo1 {
+  background-position: 0 0;
+}
+
+/* line 84, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/utilities/sprites/_base.scss */
+.logo-onecoin-logo2 {
+  background-position: 0 -84px;
+}
+
+/* line 9, compass/sass/_common.scss */
+body {
+  background: #f8f8f8;
+}
+
+/* line 13, compass/sass/_common.scss */
+textarea {
+  border: 1px solid #c4c4c4;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  background-color: #fff;
+  color: #565a5c;
+}
+
+/* line 21, compass/sass/_common.scss */
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+/* line 28, compass/sass/_common.scss */
+.photo-round img {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+/* line 33, compass/sass/_common.scss */
+.panel {
+  margin: 0 5px;
+  padding: 10px;
+  border: 1px solid #dce0e0;
+  background-color: #fff;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+
+/* line 51, compass/sass/_common.scss */
+.panel-quote-left:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: auto;
+  border-left: 0;
+  top: 15px;
+  left: 0px;
+  border: 10px solid transparent;
+  border-right-color: #dce0e0;
+}
+/* line 57, compass/sass/_common.scss */
+.panel-quote-left:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: auto;
+  border-left: 0;
+  top: 15px;
+  left: 3px;
+  border: 9px solid transparent;
+  border-right-color: #fff;
+}
+
+/* line 75, compass/sass/_common.scss */
+.panel-quote-right:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  left: auto;
+  border-right: 0;
+  top: 15px;
+  right: 0px;
+  border: 10px solid transparent;
+  border-left-color: #dce0e0;
+}
+/* line 81, compass/sass/_common.scss */
+.panel-quote-right:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  left: auto;
+  border-right: 0;
+  top: 15px;
+  right: 3px;
+  border: 9px solid transparent;
+  border-left-color: #fff;
+}
+
+/* line 1, compass/sass/_message.scss */
+.message {
+  margin-top: 20px;
+}
+/* line 4, compass/sass/_message.scss */
+.message .thread-list-item {
+  margin-top: 20px;
+}
+/* line 8, compass/sass/_message.scss */
+.message .thread-list-item .message-text textarea {
+  width: 100%;
+}

@@ -1,0 +1,87 @@
+@import 'compass';
+
+$base-background: #f8f8f8;
+$input_gray: #c4c4c4;
+$panel_gray: #dce0e0;
+$font_color: #565a5c;
+$white: #fff;
+
+body{
+  background: $base-background;
+}
+
+textarea {
+  border: 1px solid $input_gray;
+  @include border-radius(2px);
+  background-color: $white;
+  color: $font_color;
+}
+
+.clearfix {
+  &:after{
+  	content: " ";
+  	display: table;
+  }
+}
+
+.photo-round {
+  img { 
+  	@include border-radius(50%);
+  }
+}
+
+.panel {
+  margin: 0 5px;
+  padding: 10px;
+  border: 1px solid $panel_gray;
+  background-color: $white;
+  @include border-radius(0);
+}
+
+@mixin mixin-panel-quote-left {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: auto;
+  border-left: 0;
+  top: 15px;
+}
+
+.panel-quote-left {
+  &:before {
+    @include mixin-panel-quote-left;
+    left: 0px;
+    border: 10px solid transparent;
+    border-right-color: $panel_gray;
+  }
+  &:after {
+    @include mixin-panel-quote-left;
+    left: 3px;
+    border: 9px solid transparent;
+    border-right-color: $white;
+  }
+}
+
+@mixin mixin-panel-quote-right {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  left: auto;
+  border-right: 0;
+  top: 15px;
+}
+
+.panel-quote-right {
+  &:before{
+    @include mixin-panel-quote-right;
+    right: 0px;
+    border: 10px solid transparent;
+    border-left-color: $panel_gray;
+  }
+  &:after{
+    @include mixin-panel-quote-right;
+    right: 3px;
+    border: 9px solid transparent;
+    border-left-color: $white;
+  }
+}
