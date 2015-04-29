@@ -18,9 +18,11 @@ CompassはSass/Scss上に作られたフレームワークのような存在で�
 http://compass-style.org/reference/compass/
 
 Scss + Compassについてはこの記事を読めば十分メリットや使い方がよく分かる。
+
 http://liginc.co.jp/designer/archives/11623
 
 また、Sublime Text 3にScss + Compassのプラグインを入れてSublime上でコンパイルする事もできる。
+
 http://qiita.com/1000doc/items/579b04b1404a0cd09a62
 
 便利すぎてもうCSS直書きに戻る気にはなれなくなる。ただ、少し気になるのはScss上でコメントを入れるとなぜかコンパイルエラーになる…。なぜだろう。
