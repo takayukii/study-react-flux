@@ -25,7 +25,9 @@ http://liginc.co.jp/designer/archives/11623
 
 http://qiita.com/1000doc/items/579b04b1404a0cd09a62
 
-便利すぎてもうCSS直書きに戻る気にはなれなくなる。ただ、少し気になるのはScss上でコメントを入れるとなぜかコンパイルエラーになる…。なぜだろう。
+便利すぎてもうCSS直書きに戻る気にはなれなくなる。ただ、少し気になるのはScss上でコメントを入れるとなぜかコンパイルエラーになる…。なぜだろう。→ charsetをutf-8で指定すると解決する。
+
+http://tecblog.kirin-dgn.com/?p=59
 
 ## React + flux
 
