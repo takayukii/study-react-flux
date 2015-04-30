@@ -1,7 +1,14 @@
+@charset "utf-8";
 @import 'compass';
-@import 'logo/*.png';
 
+/***************************
+* CSSSpriteを生成する
+****************************/
+
+@import 'logo/*.png';
 @include all-logo-sprites;
+
+// 共通・各ページのスタイルを読み込む
 
 @import 'common';
 @import 'message';

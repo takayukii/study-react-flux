@@ -1,10 +1,15 @@
+@charset "utf-8";
 @import 'compass';
 
-$base-background: #f8f8f8;
-$input_gray: #c4c4c4;
-$panel_gray: #dce0e0;
-$font_color: #565a5c;
-$white: #fff;
+/***************************
+* 共通のスタイル
+****************************/
+
+$base-background: #f8f8f8; // 背景色
+$input_gray: #c4c4c4; // input要素のボーダー色
+$panel_gray: #dce0e0; // パネルのボーダー色
+$font_color: #565a5c; // フォントの色
+$white: #fff; // パネルの表面色
 
 body{
   background: $base-background;
@@ -17,6 +22,8 @@ textarea {
   color: $font_color;
 }
 
+/* floatによる要素のズレを防止するクラス */
+
 .clearfix {
   &:after{
   	content: " ";
@@ -24,11 +31,15 @@ textarea {
   }
 }
 
+/* 丸型写真 */
+
 .photo-round {
   img { 
   	@include border-radius(50%);
   }
 }
+
+/* パネル */
 
 .panel {
   margin: 0 5px;
@@ -37,6 +48,8 @@ textarea {
   background-color: $white;
   @include border-radius(0);
 }
+
+/* 吹き出しパネル（左から） */
 
 @mixin mixin-panel-quote-left {
   content: "";
@@ -61,6 +74,8 @@ textarea {
     border-right-color: $white;
   }
 }
+
+/* 吹き出しパネル（右から） */
 
 @mixin mixin-panel-quote-right {
   content: "";

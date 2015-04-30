@@ -1,13 +1,23 @@
+@charset "utf-8";
+
+/***************************
+* メッセージ画面のスタイル
+****************************/
+
 .message {
   margin-top: 20px;
+
+  /* 会話の1アイテム */
 
   .thread-list-item {
     margin-top: 20px;
 
+    textarea {
+      width: 100%;
+    }
+
     .message-text {
-      textarea {
-        width: 100%;
-      }
+
     }
 
   }
