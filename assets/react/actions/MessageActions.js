@@ -6,10 +6,12 @@ var MessageActions = {
   /**
    * @param  {string} text
    */
-  create: function(text) {
+  create: function(text, datetime) {
+    console.log('datetime', datetime);
     AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_CREATE,
-      text: text
+      text: text,
+      datetime: datetime
     });
   },
 
@@ -33,7 +35,7 @@ var MessageActions = {
       actionType: MessageConstants.MESSAGE_DESTROY,
       id: id
     });
-  },
+  }
 
 };
 

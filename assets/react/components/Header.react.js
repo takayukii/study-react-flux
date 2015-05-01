@@ -52,7 +52,7 @@ var Header = React.createClass({
 
   _onClick: function(e) {
     console.log('_onClick:', this.state.text);
-    MessageActions.create(this.state.text);
+    MessageActions.create(this.state.text, new Date());
   }
 
 });

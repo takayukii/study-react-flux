@@ -106,13 +106,26 @@ textarea {
 /***************************
 * メッセージ画面のスタイル
 ****************************/
-/* line 7, ../compass/sass/_message.scss */
+/* line 12, ../compass/sass/_message.scss */
 .message {
   margin-top: 20px;
   /* 会話の1アイテム */ }
-/* line 12, ../compass/sass/_message.scss */
+/* line 17, ../compass/sass/_message.scss */
 .message .thread-list-item {
   margin-top: 20px; }
-/* line 15, ../compass/sass/_message.scss */
+/* line 20, ../compass/sass/_message.scss */
 .message .thread-list-item textarea {
   width: 100%; }
+/* line 27, ../compass/sass/_message.scss */
+.message .thread-list-item p.datetime {
+  margin: 0;
+  font-size: small;
+  padding: 0;
+  color: silver; }
+/* line 33, ../compass/sass/_message.scss */
+.message .thread-list-item p.datetime a {
+  color: silver;
+  text-decoration: none; }
+/* line 24, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+.message .thread-list-item p.datetime a:hover {
+  color: gray; }

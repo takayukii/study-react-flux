@@ -2,6 +2,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var MessageConstants = require('../constants/MessageConstants');
 var assign = require('object-assign');
+var _ = require('lodash');
 
 var CHANGE_EVENT = 'change';
 
@@ -11,14 +12,18 @@ var _messages = {};
  * Create a Message.
  * @param  {string} text The content of the TODO
  */
-function create(text) {
+function create(text, datetime) {
+
+  console.log('create', datetime);
+
   // Hand waving here -- not showing how this interacts with XHR or persistent
   // server-side storage.
   // Using the current timestamp + random number in place of a real id.
   var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
   _messages[id] = {
     id: id,
-    text: text
+    text: text,
+    datetime: datetime
   };
 }
 
@@ -47,7 +52,12 @@ var MessageStore = assign({}, EventEmitter.prototype, {
    * @return {object}
    */
   getAll: function() {
-    return _messages;
+
+    var sorted = _.sortBy(_messages, function(message){
+      return -message.datetime;
+    });
+
+    return sorted;
   },
 
   emitChange: function() {
@@ -78,7 +88,7 @@ AppDispatcher.register(function(action) {
     case MessageConstants.MESSAGE_CREATE:
       text = action.text.trim();
       if (text !== '') {
-        create(text);
+        create(text, action.datetime);
         MessageStore.emitChange();
       }
       break;
@@ -93,6 +103,11 @@ AppDispatcher.register(function(action) {
 
     case MessageConstants.MESSAGE_DESTROY:
       destroy(action.id);
+      MessageStore.emitChange();
+      break;
+
+    case MessageConstants.MESSAGE_AGING:
+      aging();
       MessageStore.emitChange();
       break;
 
