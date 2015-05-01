@@ -31,3 +31,12 @@ http://tecblog.kirin-dgn.com/?p=59
 
 ## React + flux
 
+Reactの概要はなんとなく知っていたのでfluxの概要を調べる。Facebookのfluxのサンプルのドキュメントが簡潔で分かりやすかった。英語があまり読めなくてもなんとなく分かるはず（自分でも理解しやすかった）。
+
+https://github.com/facebook/flux/tree/master/examples/flux-todomvc
+
+ReactについてはAdvend Calendar
+
+http://qiita.com/advent-calendar/2014/reactjs
+
+よく言われるようにコードの記述量はけっこう多め。なんだかJavaを触ってるみたいな気持ちになる。ひとまずサンプルをもとに簡単な実装をしてみたが、まだthis.propsとthis.stateのメカニズムがよく分かってない。
