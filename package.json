@@ -41,7 +41,8 @@
     "start": "node app.js",
     "debug": "node debug app.js",
     "client-watch": "watchify assets/src/react/app.js -o assets/js/bundle.js -v",
-    "client-jsdoc": "jsx --harmony assets/src/react .tmp/_react_precompiled && rm -Rf docs/client && jsdoc -r .tmp/_react_precompiled -c docs/clientconf.json -d docs/client"
+    "client-jsdoc": "jsx --harmony assets/src/react .tmp/_react_precompiled && rm -Rf docs/client && jsdoc -r .tmp/_react_precompiled -c docs/clientconf.json -d docs/client",
+    "server-jsdoc": "rm -Rf docs/server && jsdoc -r api -c docs/serverconf.json -d docs/server"
   },
   "browserify": {
     "transform": [

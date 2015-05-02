@@ -39,6 +39,19 @@ textarea {
   }
 }
 
+.photo-zoom {
+  img { 
+    width: 40px;
+    height: 40px;
+    @include transition(all 1s ease);
+
+    &:hover {
+      width: 45px;
+      height: 45px;
+    }
+  }
+}
+
 /* パネル */
 
 .panel {

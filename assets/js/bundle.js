@@ -242,7 +242,7 @@ var Message = React.createClass({displayName: "Message",
         React.createElement("div", {className: "thread-list-item"}, 
           React.createElement("div", {className: "row"}, 
             React.createElement("div", {className: "col-xs-2 col-md-1 text-center"}, 
-              React.createElement("a", {className: "photo-round", href: "#"}, 
+              React.createElement("a", {className: "photo-round photo-zoom", href: "#"}, 
                 React.createElement("img", {src: 'https://a2.muscache.com/ic/users/24725606/profile_pic/1418303411/original.jpg?interpolation=lanczos-none&crop=w:w;*,*&crop=h:h;*,*&resize=36:*&output-format=jpg&output-quality=70'})
               )
             ), 
@@ -274,7 +274,7 @@ var Message = React.createClass({displayName: "Message",
               )
             ), 
             React.createElement("div", {className: "col-xs-2 col-md-1 text-center"}, 
-              React.createElement("a", {className: "photo-round", href: "#"}, 
+              React.createElement("a", {className: "photo-round photo-zoom", href: "#"}, 
                 React.createElement("img", {src: 'https://a2.muscache.com/ic/users/24725606/profile_pic/1418303411/original.jpg?interpolation=lanczos-none&crop=w:w;*,*&crop=h:h;*,*&resize=36:*&output-format=jpg&output-quality=70'})
               )
             )

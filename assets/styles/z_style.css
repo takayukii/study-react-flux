@@ -44,8 +44,21 @@ textarea {
   -webkit-border-radius: 50%;
   border-radius: 50%; }
 
+/* line 43, ../src/compass/sass/_common.scss */
+.photo-zoom img {
+  width: 40px;
+  height: 40px;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease; }
+/* line 48, ../src/compass/sass/_common.scss */
+.photo-zoom img:hover {
+  width: 45px;
+  height: 45px; }
+
 /* パネル */
-/* line 44, ../src/compass/sass/_common.scss */
+/* line 57, ../src/compass/sass/_common.scss */
 .panel {
   margin: 0 5px;
   padding: 10px;
@@ -56,7 +69,7 @@ textarea {
   border-radius: 0; }
 
 /* 吹き出しパネル（左から） */
-/* line 64, ../src/compass/sass/_common.scss */
+/* line 77, ../src/compass/sass/_common.scss */
 .panel-quote-left:before {
   content: "";
   display: inline-block;
@@ -67,7 +80,7 @@ textarea {
   left: 0px;
   border: 10px solid transparent;
   border-right-color: #dce0e0; }
-/* line 70, ../src/compass/sass/_common.scss */
+/* line 83, ../src/compass/sass/_common.scss */
 .panel-quote-left:after {
   content: "";
   display: inline-block;
@@ -80,7 +93,7 @@ textarea {
   border-right-color: #fff; }
 
 /* 吹き出しパネル（右から） */
-/* line 90, ../src/compass/sass/_common.scss */
+/* line 103, ../src/compass/sass/_common.scss */
 .panel-quote-right:before {
   content: "";
   display: inline-block;
@@ -91,7 +104,7 @@ textarea {
   right: 0px;
   border: 10px solid transparent;
   border-left-color: #dce0e0; }
-/* line 96, ../src/compass/sass/_common.scss */
+/* line 109, ../src/compass/sass/_common.scss */
 .panel-quote-right:after {
   content: "";
   display: inline-block;

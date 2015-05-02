@@ -75,7 +75,7 @@ var Message = React.createClass({
         <div className="thread-list-item">
           <div className="row">
             <div className="col-xs-2 col-md-1 text-center">
-              <a className="photo-round" href="#">
+              <a className="photo-round photo-zoom" href="#">
                 <img src={'https://a2.muscache.com/ic/users/24725606/profile_pic/1418303411/original.jpg?interpolation=lanczos-none&crop=w:w;*,*&crop=h:h;*,*&resize=36:*&output-format=jpg&output-quality=70'} />
               </a>
             </div>
@@ -107,7 +107,7 @@ var Message = React.createClass({
               </div>
             </div>
             <div className="col-xs-2 col-md-1 text-center">
-              <a className="photo-round" href="#">
+              <a className="photo-round photo-zoom" href="#">
                 <img src={'https://a2.muscache.com/ic/users/24725606/profile_pic/1418303411/original.jpg?interpolation=lanczos-none&crop=w:w;*,*&crop=h:h;*,*&resize=36:*&output-format=jpg&output-quality=70'} />
               </a>
             </div>
