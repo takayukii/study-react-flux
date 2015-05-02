@@ -5,7 +5,11 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var MessageActions = require('../actions/MessageActions');
+
 var TimeAgo = React.createFactory(require('react-timeago'));
+
+var OverlayTrigger = require('react-bootstrap/lib/OverlayTrigger');
+var Tooltip = require('react-bootstrap/lib/Tooltip');
 
 var Message = React.createClass({
 
@@ -79,7 +83,9 @@ var Message = React.createClass({
               <div className="panel panel-quote-left">
                 <div className="clearfix">
                   <div className="message-text">{paragraphs}</div>
-                  <p className="pull-right datetime"><a title={datetime}>{timeago}</a></p>
+                  <OverlayTrigger placement='bottom' overlay={<Tooltip>{datetime}</Tooltip>}>
+                    <p className="pull-right datetime">{timeago}</p>
+                  </OverlayTrigger>
                 </div>
               </div>
             </div>
@@ -94,7 +100,9 @@ var Message = React.createClass({
               <div className="panel panel-quote-right">
                 <div className="clearfix">
                   <div className="message-text">{paragraphs}</div>
-                  <p className="pull-right datetime"><a title={datetime}>{timeago}</a></p>
+                  <OverlayTrigger placement='bottom' overlay={<Tooltip>{datetime}</Tooltip>}>
+                    <p className="pull-right datetime">{timeago}</p>
+                  </OverlayTrigger>
                 </div>
               </div>
             </div>

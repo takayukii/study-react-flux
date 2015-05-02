@@ -4,7 +4,7 @@
 ****************************/
 /* line 56, logo/*.png */
 .logo-sprite, .logo-onecoin-logo1, .logo-onecoin-logo2 {
-  background-image: url('/../images/logo-s54c12e9630.png');
+  background-image: url('/../../images/logo-s54c12e9630.png');
   background-repeat: no-repeat; }
 
 /* line 84, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/utilities/sprites/_base.scss */
@@ -18,11 +18,11 @@
 /***************************
 * 共通のスタイル
 ****************************/
-/* line 14, ../compass/sass/_common.scss */
+/* line 14, ../src/compass/sass/_common.scss */
 body {
   background: #f8f8f8; }
 
-/* line 18, ../compass/sass/_common.scss */
+/* line 18, ../src/compass/sass/_common.scss */
 textarea {
   border: 1px solid #c4c4c4;
   -moz-border-radius: 2px;
@@ -32,20 +32,20 @@ textarea {
   color: #565a5c; }
 
 /* floatによる要素のズレを防止するクラス */
-/* line 28, ../compass/sass/_common.scss */
+/* line 28, ../src/compass/sass/_common.scss */
 .clearfix:after {
   content: " ";
   display: table; }
 
 /* 丸型写真 */
-/* line 37, ../compass/sass/_common.scss */
+/* line 37, ../src/compass/sass/_common.scss */
 .photo-round img {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%; }
 
 /* パネル */
-/* line 44, ../compass/sass/_common.scss */
+/* line 44, ../src/compass/sass/_common.scss */
 .panel {
   margin: 0 5px;
   padding: 10px;
@@ -56,7 +56,7 @@ textarea {
   border-radius: 0; }
 
 /* 吹き出しパネル（左から） */
-/* line 64, ../compass/sass/_common.scss */
+/* line 64, ../src/compass/sass/_common.scss */
 .panel-quote-left:before {
   content: "";
   display: inline-block;
@@ -67,7 +67,7 @@ textarea {
   left: 0px;
   border: 10px solid transparent;
   border-right-color: #dce0e0; }
-/* line 70, ../compass/sass/_common.scss */
+/* line 70, ../src/compass/sass/_common.scss */
 .panel-quote-left:after {
   content: "";
   display: inline-block;
@@ -80,7 +80,7 @@ textarea {
   border-right-color: #fff; }
 
 /* 吹き出しパネル（右から） */
-/* line 90, ../compass/sass/_common.scss */
+/* line 90, ../src/compass/sass/_common.scss */
 .panel-quote-right:before {
   content: "";
   display: inline-block;
@@ -91,7 +91,7 @@ textarea {
   right: 0px;
   border: 10px solid transparent;
   border-left-color: #dce0e0; }
-/* line 96, ../compass/sass/_common.scss */
+/* line 96, ../src/compass/sass/_common.scss */
 .panel-quote-right:after {
   content: "";
   display: inline-block;
@@ -106,23 +106,23 @@ textarea {
 /***************************
 * メッセージ画面のスタイル
 ****************************/
-/* line 12, ../compass/sass/_message.scss */
+/* line 12, ../src/compass/sass/_message.scss */
 .message {
   margin-top: 20px;
   /* 会話の1アイテム */ }
-/* line 17, ../compass/sass/_message.scss */
+/* line 17, ../src/compass/sass/_message.scss */
 .message .thread-list-item {
   margin-top: 20px; }
-/* line 20, ../compass/sass/_message.scss */
+/* line 20, ../src/compass/sass/_message.scss */
 .message .thread-list-item textarea {
   width: 100%; }
-/* line 27, ../compass/sass/_message.scss */
+/* line 27, ../src/compass/sass/_message.scss */
 .message .thread-list-item p.datetime {
   margin: 0;
   font-size: small;
   padding: 0;
   color: silver; }
-/* line 33, ../compass/sass/_message.scss */
+/* line 33, ../src/compass/sass/_message.scss */
 .message .thread-list-item p.datetime a {
   color: silver;
   text-decoration: none; }
