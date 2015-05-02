@@ -39,7 +39,8 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js",
-    "front-watch": "watchify assets/react/app.js -o assets/js/bundle.js -v"
+    "client-watch": "watchify assets/src/react/app.js -o assets/js/bundle.js -v",
+    "client-jsdoc": "jsx --harmony assets/src/react .tmp/_react_precompiled && rm -Rf docs/client && jsdoc -r .tmp/_react_precompiled -c docs/clientconf.json -d docs/client"
   },
   "browserify": {
     "transform": [
