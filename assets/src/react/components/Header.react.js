@@ -1,5 +1,6 @@
 /**
 * @exports Header
+* @description 文字入力欄の画面コンポーネント
 **/
 
 var React = require('react');
@@ -7,6 +8,10 @@ var MessageActions = require('../actions/MessageActions');
 
 var Header = React.createClass({
 
+  /**
+  * @description コンポーネントの初期値を定義する
+  * @return {object} State初期値
+  **/
   getInitialState: function(){
     return {
       text: ''
@@ -14,6 +19,7 @@ var Header = React.createClass({
   },
 
   /**
+   * @description ヘッダー画面のレイアウト定義
    * @return {object}
    */
   render: function() {
@@ -45,15 +51,19 @@ var Header = React.createClass({
   },
 
   /**
+   * @description 都度のテキスト入力に際して、this.setStateし値を更新しておく
    * @param {object} event
    */
   _onChange: function(/*object*/ event) {
-    console.log('_onChange:', event.target.value);
     this.setState({
       text: event.target.value
     });
   },
 
+  /**
+   * @description ボタン押下時にアクションを送出する
+   * @param {object} event
+   */
   _onClick: function(e) {
     console.log('_onClick:', this.state.text);
     MessageActions.create(this.state.text, new Date());
