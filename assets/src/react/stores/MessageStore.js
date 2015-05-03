@@ -7,6 +7,7 @@ var EventEmitter = require('events').EventEmitter;
 var MessageConstants = require('../constants/MessageConstants');
 var assign = require('object-assign');
 var _ = require('lodash');
+var agent = require('superagent-promise');
 
 var CHANGE_EVENT = 'change';
 
@@ -18,17 +19,29 @@ var _messages = {};
  */
 function create(text, datetime) {
 
-  console.log('create', datetime);
-
-  // Hand waving here -- not showing how this interacts with XHR or persistent
-  // server-side storage.
-  // Using the current timestamp + random number in place of a real id.
   var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
   _messages[id] = {
     id: id,
     text: text,
     datetime: datetime
   };
+
+  agent
+  .post('/messages')
+  .send({
+    id: id,
+    text: text,
+    datetime: datetime
+  })
+  .set('Accept', 'application/json')
+  .end()
+  .then(function(res){
+    console.log('res', res);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+
 }
 
 /**
@@ -85,7 +98,7 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 });
 
 // Register callback to handle all updates
-AppDispatcher.register(function(action) {
+MessageStore.dispatchToken = AppDispatcher.register(function(action) {
   var text;
 
   switch(action.actionType) {

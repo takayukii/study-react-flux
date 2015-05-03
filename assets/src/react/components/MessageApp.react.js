@@ -2,8 +2,8 @@
 * @exports MessageApp
 **/
 
-var Header = require('./Header.react');
-var MainSection = require('./MainSection.react');
+var MessageInputForm = require('./MessageInputForm.react');
+var MessageList = require('./MessageList.react');
 var React = require('react');
 var MessageStore = require('../stores/MessageStore');
 
@@ -33,8 +33,8 @@ var MessageApp = React.createClass({
   render: function() {
   	return (
       <div>
-        <Header />
-        <MainSection
+        <MessageInputForm />
+        <MessageList
           allMessages={this.state.allMessages}
         />
       </div>

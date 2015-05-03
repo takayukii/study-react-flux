@@ -1,10 +1,13 @@
 /**
 * @exports Header
-* @description 文字入力欄の画面コンポーネント
 **/
 
 var React = require('react');
-var MessageActions = require('../actions/MessageActions');
+var ReactPropTypes = React.PropTypes;
+var UserActions = require('../actions/UserActions');
+
+// Storeは1回でもこのようにrequireしないとDispatcherに登録されないので注意
+var UserStore = require('../stores/UserStore');
 
 var Header = React.createClass({
 
@@ -14,40 +17,38 @@ var Header = React.createClass({
   **/
   getInitialState: function(){
     return {
-      text: ''
+      username: ''
     };
   },
 
   /**
-   * @description ヘッダー画面のレイアウト定義
    * @return {object}
    */
   render: function() {
 
-    var textareaStyle = {
-      'overflow': 'hidden',
-      'word-wrap': 'break-word',
-      'resize': 'none',
-      'height': '62px'
-    };
-
     return (
-      <div className="thread-list-item">
-        <div className="row">
-          <div className="col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1">
-            <div className="panel message-text clearfix">
-
-              <textarea onChange={this._onChange} value={this.state.text} 
-                style={textareaStyle} placeholder="先方にメッセージをご記入ください。" />
-              <div className="pull-right">
-                <input type="submit" className="btn btn-primary" value="メッセージを送信" onClick={this._onClick} />
-              </div>
-
-            </div>
-          </div>
+      <div className="navbar navbar-inverse navbar-fixed-top sample-header" role="navigation">  
+        <div className="container">
+          <div className="navbar-header">
+            <a className="navbar-brand" href="#">React Sample</a>
+          </div>    
+          <div className="collapse navbar-collapse">
+            <ul className="nav navbar-nav">
+              <li className="active"><a href="#">Home</a></li>
+            </ul>
+            <ul className="nav navbar-nav pull-right">
+              <li className="login">
+                <div className="form-inline text-right">
+                  <input type="text" className="form-control input-sm" onChange={this._onChange} value={this.state.text} />
+                  <a href="#" onClick={this._onClick}><i className="fa fa-sign-in"></i> Login</a>
+                </div>
+              </li>
+            </ul>    
+          </div> 
         </div>
       </div>
     );
+
   },
 
   /**
@@ -56,7 +57,7 @@ var Header = React.createClass({
    */
   _onChange: function(/*object*/ event) {
     this.setState({
-      text: event.target.value
+      username: event.target.value
     });
   },
 
@@ -65,8 +66,8 @@ var Header = React.createClass({
    * @param {object} event
    */
   _onClick: function(e) {
-    console.log('_onClick:', this.state.text);
-    MessageActions.create(this.state.text, new Date());
+    e.preventDefault();
+    UserActions.login(this.state.username, 'password');
   }
 
 });
