@@ -14,7 +14,8 @@ var Tooltip = require('react-bootstrap/lib/Tooltip');
 var Message = React.createClass({
 
   propTypes: {
-   message: ReactPropTypes.object.isRequired
+    authUser: ReactPropTypes.object.isRequired,
+    message: ReactPropTypes.object.isRequired
   },
 
   /**
@@ -70,9 +71,14 @@ var Message = React.createClass({
       }
     });
 
-    if(/mine/.test(this.props.message.text)){
+    var isMine = false;
+    if(this.props.message.username === this.props.authUser.username){
+      isMine = true;
+    }
+
+    if(isMine){
       return (
-        <div className="thread-list-item">
+        <li className="thread-list-item">
           <div className="row">
             <div className="col-xs-2 col-md-1 text-center">
               <a className="photo-round photo-zoom" href="#">
@@ -90,11 +96,11 @@ var Message = React.createClass({
               </div>
             </div>
           </div>
-        </div>
-      );      
+        </li>
+      );
     }else{
       return (
-        <div className="thread-list-item">
+        <li className="thread-list-item">
           <div className="row">
             <div className="col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1">
               <div className="panel panel-quote-right">
@@ -112,7 +118,7 @@ var Message = React.createClass({
               </a>
             </div>
           </div>
-        </div>
+        </li>
       );
     }
 

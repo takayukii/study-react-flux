@@ -137,20 +137,26 @@ textarea {
 /* line 12, ../src/compass/sass/_message.scss */
 .message {
   margin-top: 20px;
+  margin-bottom: 20px;
   /* 会話の1アイテム */ }
-/* line 17, ../src/compass/sass/_message.scss */
+/* line 16, ../src/compass/sass/_message.scss */
+.message ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none; }
+/* line 24, ../src/compass/sass/_message.scss */
 .message .thread-list-item {
   margin-top: 20px; }
-/* line 20, ../src/compass/sass/_message.scss */
+/* line 27, ../src/compass/sass/_message.scss */
 .message .thread-list-item textarea {
   width: 100%; }
-/* line 27, ../src/compass/sass/_message.scss */
+/* line 31, ../src/compass/sass/_message.scss */
 .message .thread-list-item p.datetime {
   margin: 0;
   font-size: small;
   padding: 0;
   color: silver; }
-/* line 33, ../src/compass/sass/_message.scss */
+/* line 37, ../src/compass/sass/_message.scss */
 .message .thread-list-item p.datetime a {
   color: silver;
   text-decoration: none; }

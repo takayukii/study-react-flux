@@ -2,6 +2,7 @@
 * @exports Header
 **/
 
+var Promise = require('bluebird');
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var UserActions = require('../actions/UserActions');
@@ -11,20 +12,54 @@ var UserStore = require('../stores/UserStore');
 
 var Header = React.createClass({
 
+  propTypes: {
+    authUser: ReactPropTypes.object.isRequired,
+    onLogin: React.PropTypes.func.isRequired
+  },
+
   /**
   * @description コンポーネントの初期値を定義する
   * @return {object} State初期値
   **/
   getInitialState: function(){
     return {
-      username: ''
+      authUser: this.props.authUser
     };
+  },
+
+  /**
+  * @description コンポーネントマウント時にAjaxでユーザーの状態を取得する
+  **/
+  componentDidMount: function() {
+    UserStore.addChangeListener(this._onStoreEvent);
+    this._findAndSetUserState();
+  },
+
+  componentWillUnmount: function() {
+    UserStore.removeChangeListener(this._onStoreEvent);
   },
 
   /**
    * @return {object}
    */
   render: function() {
+
+    var loginNav = (
+        <li className="login">
+          <div className="form-inline text-right">
+            <input type="text" className="form-control input-sm" onChange={this._onTextChange} value={this.state.text} />
+            <a href="#" onClick={this._onButtonClick}><i className="fa fa-sign-in"></i> Login</a>
+          </div>
+        </li>
+      );
+
+    if(this.props.authUser){
+      loginNav = (
+          <ul className="nav navbar-nav">
+            <li><a href="#">{this.props.authUser.username}</a></li>
+          </ul>
+        );
+    }
 
     return (
       <div className="navbar navbar-inverse navbar-fixed-top sample-header" role="navigation">  
@@ -37,12 +72,7 @@ var Header = React.createClass({
               <li className="active"><a href="#">Home</a></li>
             </ul>
             <ul className="nav navbar-nav pull-right">
-              <li className="login">
-                <div className="form-inline text-right">
-                  <input type="text" className="form-control input-sm" onChange={this._onChange} value={this.state.text} />
-                  <a href="#" onClick={this._onClick}><i className="fa fa-sign-in"></i> Login</a>
-                </div>
-              </li>
+              {loginNav}
             </ul>    
           </div> 
         </div>
@@ -55,7 +85,7 @@ var Header = React.createClass({
    * @description 都度のテキスト入力に際して、this.setStateし値を更新しておく
    * @param {object} event
    */
-  _onChange: function(/*object*/ event) {
+  _onTextChange: function(/*object*/ event) {
     this.setState({
       username: event.target.value
     });
@@ -65,10 +95,29 @@ var Header = React.createClass({
    * @description ボタン押下時にアクションを送出する
    * @param {object} event
    */
-  _onClick: function(e) {
+  _onButtonClick: function(e) {
     e.preventDefault();
     UserActions.login(this.state.username, 'password');
-  }
+  },
+
+  _onStoreEvent: function() {
+    this._findAndSetUserState();
+  },
+
+  _findAndSetUserState: function() {
+    var self = this;
+    UserStore.me()
+    .then(function(user){
+      if (self.isMounted()) {
+        self.props.onLogin(user);
+      }
+    })
+    .catch(function(err){
+      if (self.isMounted()) {
+        self.props.onLogin(null);
+      }
+    });
+  },
 
 });
 

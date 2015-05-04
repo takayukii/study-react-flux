@@ -2,6 +2,7 @@
 * @exports MessageStore
 **/
 
+var Promise = require('bluebird');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var MessageConstants = require('../constants/MessageConstants');
@@ -11,55 +12,37 @@ var agent = require('superagent-promise');
 
 var CHANGE_EVENT = 'change';
 
-var _messages = {};
+var _messages = [];
 
 /**
  * Create a Message.
  * @param  {string} text The content of the TODO
  */
-function create(text, datetime) {
+function create(message) {
 
-  var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
-  _messages[id] = {
-    id: id,
-    text: text,
-    datetime: datetime
-  };
+  return new Promise(function(resolve, reject){
 
-  agent
-  .post('/messages')
-  .send({
-    id: id,
-    text: text,
-    datetime: datetime
-  })
-  .set('Accept', 'application/json')
-  .end()
-  .then(function(res){
-    console.log('res', res);
-  })
-  .catch(function(err){
-    console.log(err);
+    agent
+    .post('/messages')
+    .send({
+      username: message.authUser.username,
+      text: message.text,
+      datetime: message.datetime
+    })
+    .set('Accept', 'application/json')
+    .end()
+    .then(function(res){
+      var message = JSON.parse(res.text);
+      _messages.push(message);
+      resolve(message);
+    })
+    .catch(function(err){
+      console.log(err);
+      reject(err);
+    });
+
   });
 
-}
-
-/**
- * Update a Message.
- * @param  {string} id
- * @param {object} updates An object literal containing only the data to be
- *     updated.
- */
-function update(id, updates) {
-  _messages[id] = assign({}, _messages[id], updates);
-}
-
-/**
- * Delete a Message.
- * @param  {string} id
- */
-function destroy(id) {
-  delete _messages[id];
 }
 
 var MessageStore = assign({}, EventEmitter.prototype, {
@@ -70,11 +53,31 @@ var MessageStore = assign({}, EventEmitter.prototype, {
    */
   getAll: function() {
 
-    var sorted = _.sortBy(_messages, function(message){
-      return -message.datetime;
+    return new Promise(function(resolve, reject){
+
+      agent
+      .get('/messages')
+      .set('Accept', 'application/json')
+      .end()
+      .then(function(res){
+
+        console.log(res.text);
+        var messages = JSON.parse(res.text);
+
+        var sorted = _.sortBy(messages, function(message){
+          return -message.datetime;
+        });
+        
+        _messages = sorted;
+        resolve(sorted);
+      })
+      .catch(function(err){
+        console.log(err);
+        reject(err);
+      });
+
     });
 
-    return sorted;
   },
 
   emitChange: function() {
@@ -99,33 +102,18 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 
 // Register callback to handle all updates
 MessageStore.dispatchToken = AppDispatcher.register(function(action) {
-  var text;
 
   switch(action.actionType) {
     case MessageConstants.MESSAGE_CREATE:
-      text = action.text.trim();
-      if (text !== '') {
-        create(text, action.datetime);
-        MessageStore.emitChange();
+      if (action.message.text.trim() !== '') {
+        create(action.message)
+        .then(function(message){
+          MessageStore.emitChange();
+        })
+        .catch(function(err){
+          console.log(err);
+        });
       }
-      break;
-
-    case MessageConstants.MESSAGE_UPDATE:
-      text = action.text.trim();
-      if (text !== '') {
-        update(action.id, {text: text});
-        MessageStore.emitChange();
-      }
-      break;
-
-    case MessageConstants.MESSAGE_DESTROY:
-      destroy(action.id);
-      MessageStore.emitChange();
-      break;
-
-    case MessageConstants.MESSAGE_AGING:
-      aging();
-      MessageStore.emitChange();
       break;
 
     default:

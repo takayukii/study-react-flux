@@ -1,14 +1,7 @@
 var React = require('react');
-
-var Header = require('./components/Header.react');
-var MessageApp = require('./components/MessageApp.react');
+var App = require('./components/App.react');
 
 React.render(
-  <Header />,
-  document.getElementById('header')
-);
-
-React.render(
-  <MessageApp />,
-  document.getElementById('messageapp')
+  <App />,
+  document.getElementById('app')
 );

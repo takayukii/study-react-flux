@@ -4,9 +4,14 @@
 **/
 
 var React = require('react');
+var ReactPropTypes = React.PropTypes;
 var MessageActions = require('../actions/MessageActions');
 
 var Header = React.createClass({
+
+  propTypes: {
+    authUser: ReactPropTypes.object.isRequired
+  },
 
   /**
   * @description コンポーネントの初期値を定義する
@@ -37,10 +42,10 @@ var Header = React.createClass({
           <div className="col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1">
             <div className="panel message-text clearfix">
 
-              <textarea onChange={this._onChange} value={this.state.text} 
+              <textarea onChange={this._onTextChange} value={this.state.text} 
                 style={textareaStyle} placeholder="先方にメッセージをご記入ください。" />
               <div className="pull-right">
-                <input type="submit" className="btn btn-primary" value="メッセージを送信" onClick={this._onClick} />
+                <input type="submit" className="btn btn-primary" value="メッセージを送信" onClick={this._onButtonClick} />
               </div>
 
             </div>
@@ -54,7 +59,7 @@ var Header = React.createClass({
    * @description 都度のテキスト入力に際して、this.setStateし値を更新しておく
    * @param {object} event
    */
-  _onChange: function(/*object*/ event) {
+  _onTextChange: function(/*object*/ event) {
     this.setState({
       text: event.target.value
     });
@@ -64,9 +69,14 @@ var Header = React.createClass({
    * @description ボタン押下時にアクションを送出する
    * @param {object} event
    */
-  _onClick: function(e) {
-    console.log('_onClick:', this.state.text);
-    MessageActions.create(this.state.text, new Date());
+  _onButtonClick: function(e) {
+
+    MessageActions.create({
+      authUser: this.props.authUser, 
+      text: this.state.text, 
+      datetime: new Date()
+    });
+    
   }
 
 });

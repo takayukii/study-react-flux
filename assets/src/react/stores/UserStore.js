@@ -2,6 +2,7 @@
 * @exports UserStore
 **/
 
+var Promise = require('bluebird');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var UserConstants = require('../constants/UserConstants');
@@ -16,25 +17,46 @@ var CHANGE_EVENT = 'change';
  * @param  {string} text The content of the TODO
  */
 function login(username, password) {
+  return new Promise(function(resolve, reject){
 
-  agent
-  .post('/auth/login')
-  .send({
-    username: username,
-    password: password
-  })
-  .set('Accept', 'application/json')
-  .end()
-  .then(function(res){
-    console.log('res', res);
-  })
-  .catch(function(err){
-    console.log(err);
+    agent
+    .post('/auth/login')
+    .send({
+      username: username,
+      password: password
+    })
+    .set('Accept', 'application/json')
+    .end()
+    .then(function(res){
+      resolve(JSON.parse(res.text));
+    })
+    .catch(function(err){
+      console.log(err);
+      reject(err);
+    });
+
   });
-
 }
 
 var UserStore = assign({}, EventEmitter.prototype, {
+
+  me: function(){
+    return new Promise(function(resolve, reject){
+
+      agent
+      .get('/auth/me')
+      .set('Accept', 'application/json')
+      .end()
+      .then(function(res){
+        resolve(JSON.parse(res.text));
+      })
+      .catch(function(err){
+        console.log(err);
+        reject(err);
+      });
+
+    });
+  },
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -59,14 +81,15 @@ var UserStore = assign({}, EventEmitter.prototype, {
 // Register callback to handle all updates
 UserStore.dispatchToken = AppDispatcher.register(function(action) {
 
-  var username;
   switch(action.actionType) {
     case UserConstants.USER_LOGIN:
-      username = action.username.trim();
-      if (username !== '') {
-        login(username, action.password);
+    
+      login(action.username.trim(), action.password)
+      .then(function(user){
         UserStore.emitChange();
-      }
+      }).catch(function(err){
+        console.log('login', err);
+      });
       break;
 
     default:

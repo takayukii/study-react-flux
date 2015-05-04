@@ -8,38 +8,14 @@ var MessageConstants = require('../constants/MessageConstants');
 var MessageActions = {
 
   /**
-   * @param  {string} text
+   * @param  {object} message
    */
-  create: function(text, datetime) {
-    console.log('datetime', datetime);
+  create: function(message) {
     AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_CREATE,
-      text: text,
-      datetime: datetime
+      message: message
     });
   },
-
-  /**
-   * @param  {string} id The ID of the ToDo item
-   * @param  {string} text
-   */
-  update: function(id, text) {
-    AppDispatcher.dispatch({
-      actionType: MessageConstants.MESSAGE_UPDATE,
-      id: id,
-      text: text
-    });
-  },
-
-  /**
-   * @param  {string} id
-   */
-  destroy: function(id) {
-    AppDispatcher.dispatch({
-      actionType: MessageConstants.MESSAGE_DESTROY,
-      id: id
-    });
-  }
 
 };
 

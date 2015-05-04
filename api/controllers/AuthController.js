@@ -13,27 +13,34 @@ module.exports = {
 
     passport.authenticate('local', function(err, user, info){
       if ((err) || (!user)){
-        console.log(err);
-        return res.send({
-          message: 'failure'
-        });
+        sails.log.warn('ログインに失敗しました', err, user, info);
+        return res.send(500);
       }
  
       req.logIn(user, function(err){
 
         if(err){
-          return res.send({
-            message: 'failure'
-          });
+          sails.log.warn('ログインに失敗しました', err, user, info);
+          return res.send(500);
         }
+
+        // ログインしたユーザー情報をセッションに保持する
+        req.session.user = user;
         
-        return res.send({
-          message: 'success',
-          authUser: user.username
-        });
+        return res.json(user);
       });
 
     })(req, res);
+  },
+
+  me: function(req, res){
+
+    if(req.session.user){
+      return res.json(req.session.user);
+    }else{
+      return res.send(404);
+    }
+    
   },
 	
 };

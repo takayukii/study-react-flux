@@ -10,7 +10,8 @@ var Message = require('./Message.react');
 var MainSection = React.createClass({
 
   propTypes: {
-    allMessages: ReactPropTypes.object.isRequired
+    authUser: ReactPropTypes.object.isRequired,
+    allMessages: ReactPropTypes.array.isRequired
   },
 
   /**
@@ -26,13 +27,13 @@ var MainSection = React.createClass({
     var messages = [];
 
     for (var key in allMessages) {
-      messages.push(<Message key={key} message={allMessages[key]} />);
+      messages.push(<Message authUser={this.props.authUser} key={key} message={allMessages[key]} />);
     }
 
     return (
-      <section id="main">
+      <ul>
         {messages}
-      </section>
+      </ul>
     );
   },
 
