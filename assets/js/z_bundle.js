@@ -1091,6 +1091,7 @@ UserStore.dispatchToken = AppDispatcher.register(function(action) {
     
       logout()
       .then(function(){
+        window.location = "/";
         UserStore.emitChange();
       }).catch(function(err){
         console.log('logout', err);
