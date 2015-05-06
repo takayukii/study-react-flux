@@ -28,6 +28,27 @@ function login(username, password) {
     .set('Accept', 'application/json')
     .end()
     .then(function(res){
+      console.log('login', res.text);
+      resolve(JSON.parse(res.text));
+    })
+    .catch(function(err){
+      console.log(err);
+      reject(err);
+    });
+
+  });
+}
+
+function logout(){
+  return new Promise(function(resolve, reject){
+
+    agent
+    .post('/auth/logout')
+    .send({})
+    .set('Accept', 'application/json')
+    .end()
+    .then(function(res){
+      console.log('logout', res.text);
       resolve(JSON.parse(res.text));
     })
     .catch(function(err){
@@ -89,6 +110,16 @@ UserStore.dispatchToken = AppDispatcher.register(function(action) {
         UserStore.emitChange();
       }).catch(function(err){
         console.log('login', err);
+      });
+      break;
+
+    case UserConstants.USER_LOGOUT:
+    
+      logout()
+      .then(function(){
+        UserStore.emitChange();
+      }).catch(function(err){
+        console.log('logout', err);
       });
       break;
 

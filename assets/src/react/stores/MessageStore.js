@@ -8,42 +8,69 @@ var EventEmitter = require('events').EventEmitter;
 var MessageConstants = require('../constants/MessageConstants');
 var assign = require('object-assign');
 var _ = require('lodash');
-var agent = require('superagent-promise');
+var TAFFY = require('node-taffydb').TAFFY;
 
 var CHANGE_EVENT = 'change';
 
-var _messages = [];
+var _messages = TAFFY();
 
 /**
  * Create a Message.
- * @param  {string} text The content of the TODO
+ * @param  {object} message
  */
-function create(message) {
-
+function createMessage(message) {
+  console.log('MessageStore.createMessage', message);
   return new Promise(function(resolve, reject){
 
-    agent
-    .post('/messages')
-    .send({
+    window.io.socket.post('/messages', {
+      message_thread_id: message.messageThread.id,
       username: message.authUser.username,
-      text: message.text,
-      datetime: message.datetime
-    })
-    .set('Accept', 'application/json')
-    .end()
-    .then(function(res){
-      var message = JSON.parse(res.text);
-      _messages.push(message);
+      text: message.text
+    },
+    function(message){
+      // receiveCreatedMessageで保存するため自分が入力したテキストも保存は不要
+      //_messages.insert(message);
       resolve(message);
-    })
-    .catch(function(err){
-      console.log(err);
-      reject(err);
     });
 
   });
-
 }
+
+function receiveCreatedMessage(message) {
+  console.log('MessageStore.receiveCreated', message);
+  _messages.insert(message);
+}
+
+function findOrCreateMessageThread(threadName) {
+  console.log('MessageStore.findOrCreateMessageThread', threadName);
+  return new Promise(function(resolve, reject){
+
+    window.io.socket.get('/messages/findMessageThread', {
+      name: threadName
+    },
+    function(thread){
+      console.log('MessageStore.findOrCreateMessageThread', thread);
+      resolve(thread);
+    });
+
+  });
+}
+
+function findAllMessagesByThreadId(threadId){
+  return new Promise(function(resolve, reject){
+
+    window.io.socket.get('/messages', {message_thread_id: threadId}, function(messages){
+      _messages = TAFFY(messages);
+      resolve(getAllMessages());
+    });
+
+  });
+}
+
+function getAllMessages(){
+  return _messages().order('createdAt desc').get();
+}
+
 
 var MessageStore = assign({}, EventEmitter.prototype, {
 
@@ -51,33 +78,16 @@ var MessageStore = assign({}, EventEmitter.prototype, {
    * Get the entire collection of Messages.
    * @return {object}
    */
-  getAll: function() {
+  findAllMessagesByThreadId: function(threadId) {
+    return findAllMessagesByThreadId(threadId);
+  },
 
-    return new Promise(function(resolve, reject){
+  getAllMessages: function() {
+    return getAllMessages();
+  },
 
-      agent
-      .get('/messages')
-      .set('Accept', 'application/json')
-      .end()
-      .then(function(res){
-
-        console.log(res.text);
-        var messages = JSON.parse(res.text);
-
-        var sorted = _.sortBy(messages, function(message){
-          return -message.datetime;
-        });
-        
-        _messages = sorted;
-        resolve(sorted);
-      })
-      .catch(function(err){
-        console.log(err);
-        reject(err);
-      });
-
-    });
-
+  findMessageThread: function(threadName){
+    return findOrCreateMessageThread(threadName);
   },
 
   emitChange: function() {
@@ -106,8 +116,35 @@ MessageStore.dispatchToken = AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case MessageConstants.MESSAGE_CREATE:
       if (action.message.text.trim() !== '') {
-        create(action.message)
+
+        createMessage(action.message)
         .then(function(message){
+
+          // ここでmessageを捨ててしまうのが勿体無いような…？
+          MessageStore.emitChange();
+        })
+        .catch(function(err){
+          console.log(err);
+        });
+
+      }
+      break;
+
+    case MessageConstants.MESSAGE_RECEIVE_CREATED:
+
+      receiveCreatedMessage(action.message);
+      MessageStore.emitChange();
+
+      break;
+
+    case MessageConstants.THREAD_FIND_OR_CREATE:
+
+      if (action.name.trim() !== '') {
+        findOrCreateMessageThread(action.name)
+        .then(function(thread){
+          return findAllMessagesByThreadId(thread.id);
+        })
+        .then(function(messages){
           MessageStore.emitChange();
         })
         .catch(function(err){

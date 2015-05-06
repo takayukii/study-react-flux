@@ -11,6 +11,8 @@ module.exports = {
 
   login: function(req, res) {
 
+    sails.log.info('login start', req.params);
+
     passport.authenticate('local', function(err, user, info){
       if ((err) || (!user)){
         sails.log.warn('ログインに失敗しました', err, user, info);
@@ -26,6 +28,7 @@ module.exports = {
 
         // ログインしたユーザー情報をセッションに保持する
         req.session.user = user;
+        req.session.authenticated = true;
         
         return res.json(user);
       });
@@ -34,7 +37,7 @@ module.exports = {
   },
 
   me: function(req, res){
-
+    sails.log.info('me start');
     if(req.session.user){
       return res.json(req.session.user);
     }else{
@@ -42,6 +45,17 @@ module.exports = {
     }
     
   },
+
+  logout: function(req, res) {
+    sails.log.info('logout start');
+    req.session.destroy(function(err) {
+      if(err){
+        sails.log.error(err);
+        return res.send(500, err);
+      } 
+      return res.json({});
+    });
+  }
 	
 };
 

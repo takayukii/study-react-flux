@@ -19,6 +19,12 @@ var UserActions = {
     });
   },
 
+  logout: function() {
+    AppDispatcher.dispatch({
+      actionType: UserConstants.USER_LOGOUT
+    });    
+  }
+
 };
 
 module.exports = UserActions;

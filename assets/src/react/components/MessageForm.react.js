@@ -10,7 +10,8 @@ var MessageActions = require('../actions/MessageActions');
 var Header = React.createClass({
 
   propTypes: {
-    authUser: ReactPropTypes.object.isRequired
+    authUser: ReactPropTypes.object,
+    messageThread: ReactPropTypes.object
   },
 
   /**
@@ -29,6 +30,26 @@ var Header = React.createClass({
    */
   render: function() {
 
+    if(!this.props.messageThread){
+      return null;
+    }
+
+    var self = this;
+    var messageTo = null;
+    members = this.props.messageThread.name.split(/-/);
+    members.forEach(function(member){
+      if(self.props.authUser.username !== member){
+        if(!messageTo){
+          messageTo = String() + member;
+        }else{
+          messageTo += ', ' + member;
+        }
+      }
+    })
+    if(!messageTo){
+      messageTo = 'myself';
+    }
+
     var textareaStyle = {
       'overflow': 'hidden',
       'word-wrap': 'break-word',
@@ -42,6 +63,7 @@ var Header = React.createClass({
           <div className="col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1">
             <div className="panel message-text clearfix">
 
+              <h4 className="message-to">To: {messageTo}</h4>
               <textarea onChange={this._onTextChange} value={this.state.text} 
                 style={textareaStyle} placeholder="先方にメッセージをご記入ください。" />
               <div className="pull-right">
@@ -71,11 +93,12 @@ var Header = React.createClass({
    */
   _onButtonClick: function(e) {
 
-    MessageActions.create({
+    MessageActions.createMessage({
       authUser: this.props.authUser, 
-      text: this.state.text, 
-      datetime: new Date()
+      messageThread: this.props.messageThread,
+      text: this.state.text
     });
+    this.setState({text: ''});
     
   }
 

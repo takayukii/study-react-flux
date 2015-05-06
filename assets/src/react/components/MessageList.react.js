@@ -1,5 +1,5 @@
 /**
-* @exports MainSection
+* @exports MessageList
 **/
 
 var React = require('react');
@@ -7,11 +7,11 @@ var ReactPropTypes = React.PropTypes;
 var MessageActions = require('../actions/MessageActions');
 var Message = require('./Message.react');
 
-var MainSection = React.createClass({
+var MessageList = React.createClass({
 
   propTypes: {
-    authUser: ReactPropTypes.object.isRequired,
-    allMessages: ReactPropTypes.array.isRequired
+    authUser: ReactPropTypes.object,
+    allMessages: ReactPropTypes.array
   },
 
   /**
@@ -39,4 +39,4 @@ var MainSection = React.createClass({
 
 });
 
-module.exports = MainSection;
+module.exports = MessageList;
