@@ -5,9 +5,9 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
-    "my-utils": "file:lib/utils",
     "bluebird": "^2.9.25",
     "ejs": "~0.8.4",
+    "flux": "^2.0.3",
     "grunt": "0.4.2",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-coffee": "~0.10.1",
@@ -23,6 +23,7 @@
     "include-all": "~0.1.3",
     "keymirror": "~0.1.0",
     "lodash": "^3.7.0",
+    "my-utils": "file:lib/utils",
     "node-jsx": "^0.13.3",
     "node-taffydb": "^0.2.0",
     "object-assign": "^1.0.0",
