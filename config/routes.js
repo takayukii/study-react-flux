@@ -32,9 +32,10 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
-    view: 'message'
-  }
+  'GET /': 'ServerRenderingController.about',
+
+  'GET /about': 'ServerRenderingController.about',
+  'GET /message/:userName': 'ServerRenderingController.message',
 
   /***************************************************************************
   *                                                                          *

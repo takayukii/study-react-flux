@@ -41,7 +41,7 @@ module.exports = {
     .catch(function(err){
       sails.log.error(err);
       return res.send(500, err);
-    })
+    });
   },
 
   create: function(req, res){

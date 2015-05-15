@@ -11,7 +11,7 @@ module.exports = {
 
   login: function(req, res) {
 
-    sails.log.info('login start', req.params);
+    sails.log.verbose('login start', req.params);
 
     passport.authenticate('local', function(err, user, info){
       if ((err) || (!user)){
@@ -37,7 +37,7 @@ module.exports = {
   },
 
   me: function(req, res){
-    sails.log.info('me start');
+    sails.log.verbose('me start');
     if(req.session.user){
       return res.json(req.session.user);
     }else{
@@ -47,7 +47,7 @@ module.exports = {
   },
 
   logout: function(req, res) {
-    sails.log.info('logout start');
+    sails.log.verbose('logout start');
     req.session.destroy(function(err) {
       if(err){
         sails.log.error(err);

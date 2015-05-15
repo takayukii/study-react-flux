@@ -4,9 +4,12 @@
 
 var Promise = require('bluebird');
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 var ReactPropTypes = React.PropTypes;
 var MessageActions = require('../actions/MessageActions');
 var MessageStore = require('../stores/MessageStore');
+var _Common = require('_common');
 
 var Header = React.createClass({
 
@@ -42,8 +45,8 @@ var Header = React.createClass({
           <li className="dropdown">
             <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Message To <span className="caret"></span></a>
             <ul className="dropdown-menu" role="menu">
-              <li><a href="#" onClick={this._onChangeMessageThreadClick}>bob</a></li>
-              <li><a href="#" onClick={this._onChangeMessageThreadClick}>joe</a></li>
+              <li><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></li>
+              <li><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></li>
             </ul>
           </li>
         </ul>
@@ -78,17 +81,10 @@ var Header = React.createClass({
 
   _onChangeMessageThreadClick: function(/*object*/ event){
 
-    event.preventDefault();
-
-    var threadName = null;
-    
-    if(this.props.authUser.username > event.target.textContent){
-      threadName = event.target.textContent + '-' + this.props.authUser.username;
-    }else{
-      threadName = this.props.authUser.username + '-' + event.target.textContent;
-    }
+    var threadName = _Common.getMessageThreadName(this.props.authUser.username, event.target.textContent);
     this.setState({threadName: threadName});
     MessageActions.findOrCreateMessageThread(threadName);
+    
   },
 
 });

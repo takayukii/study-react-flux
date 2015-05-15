@@ -30,52 +30,75 @@
 * @exports MessageStore
 **/
 
+var Promise = require('bluebird');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var MessageConstants = require('../constants/MessageConstants');
 var assign = require('object-assign');
 var _ = require('lodash');
+var TAFFY = require('node-taffydb').TAFFY;
 
 var CHANGE_EVENT = 'change';
 
-var _messages = {};
+var _messages = TAFFY();
 
 /**
  * Create a Message.
- * @param  {string} text The content of the TODO
+ * @param  {object} message
  */
-function create(text, datetime) {
+function createMessage(message) {
+  console.log('MessageStore.createMessage', message);
+  return new Promise(function(resolve, reject){
 
-  console.log('create', datetime);
+    window.io.socket.post('/messages', {
+      message_thread_id: message.messageThread.id,
+      username: message.authUser.username,
+      text: message.text
+    },
+    function(message){
+      // receiveCreatedMessageで保存するため自分が入力したテキストも保存は不要
+      //_messages.insert(message);
+      resolve(message);
+    });
 
-  // Hand waving here -- not showing how this interacts with XHR or persistent
-  // server-side storage.
-  // Using the current timestamp + random number in place of a real id.
-  var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
-  _messages[id] = {
-    id: id,
-    text: text,
-    datetime: datetime
-  };
+  });
 }
 
-/**
- * Update a Message.
- * @param  {string} id
- * @param {object} updates An object literal containing only the data to be
- *     updated.
- */
-function update(id, updates) {
-  _messages[id] = assign({}, _messages[id], updates);
+function receiveCreatedMessage(message) {
+  console.log('MessageStore.receiveCreated', message);
+  _messages.insert(message);
 }
 
-/**
- * Delete a Message.
- * @param  {string} id
- */
-function destroy(id) {
-  delete _messages[id];
+function findOrCreateMessageThread(threadName) {
+  console.log('MessageStore.findOrCreateMessageThread', threadName);
+  return new Promise(function(resolve, reject){
+
+    window.io.socket.get('/messages/findMessageThread', {
+      name: threadName
+    },
+    function(thread){
+      console.log('MessageStore.findOrCreateMessageThread', thread);
+      resolve(thread);
+    });
+
+  });
 }
+
+function findAllMessagesByThreadId(threadId){
+  return new Promise(function(resolve, reject){
+
+    window.io.socket.get('/messages', {message_thread_id: threadId}, function(messages){
+      _messages = TAFFY(messages);
+      resolve(getAllMessages());
+    });
+
+  });
+}
+
+function getAllMessages(){
+  return _messages().order('createdAt desc').get();
+}
+
 
 var MessageStore = assign({}, EventEmitter.prototype, {
 
@@ -83,13 +106,16 @@ var MessageStore = assign({}, EventEmitter.prototype, {
    * Get the entire collection of Messages.
    * @return {object}
    */
-  getAll: function() {
+  findAllMessagesByThreadId: function(threadId) {
+    return findAllMessagesByThreadId(threadId);
+  },
 
-    var sorted = _.sortBy(_messages, function(message){
-      return -message.datetime;
-    });
+  getAllMessages: function() {
+    return getAllMessages();
+  },
 
-    return sorted;
+  findMessageThread: function(threadName){
+    return findOrCreateMessageThread(threadName);
   },
 
   emitChange: function() {
@@ -113,34 +139,46 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 });
 
 // Register callback to handle all updates
-AppDispatcher.register(function(action) {
-  var text;
+MessageStore.dispatchToken = AppDispatcher.register(function(action) {
 
   switch(action.actionType) {
     case MessageConstants.MESSAGE_CREATE:
-      text = action.text.trim();
-      if (text !== '') {
-        create(text, action.datetime);
-        MessageStore.emitChange();
+      if (action.message.text.trim() !== '') {
+
+        createMessage(action.message)
+        .then(function(message){
+
+          // ここでmessageを捨ててしまうのが勿体無いような…？
+          MessageStore.emitChange();
+        })
+        .catch(function(err){
+          console.log(err);
+        });
+
       }
       break;
 
-    case MessageConstants.MESSAGE_UPDATE:
-      text = action.text.trim();
-      if (text !== '') {
-        update(action.id, {text: text});
-        MessageStore.emitChange();
+    case MessageConstants.MESSAGE_RECEIVE_CREATED:
+
+      receiveCreatedMessage(action.message);
+      MessageStore.emitChange();
+
+      break;
+
+    case MessageConstants.THREAD_FIND_OR_CREATE:
+
+      if (action.name.trim() !== '') {
+        findOrCreateMessageThread(action.name)
+        .then(function(thread){
+          return findAllMessagesByThreadId(thread.id);
+        })
+        .then(function(messages){
+          MessageStore.emitChange();
+        })
+        .catch(function(err){
+          console.log(err);
+        });
       }
-      break;
-
-    case MessageConstants.MESSAGE_DESTROY:
-      destroy(action.id);
-      MessageStore.emitChange();
-      break;
-
-    case MessageConstants.MESSAGE_AGING:
-      aging();
-      MessageStore.emitChange();
       break;
 
     default:
@@ -159,13 +197,13 @@ module.exports = MessageStore;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AppDispatcher.html">AppDispatcher</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-MainSection.html">MainSection</a></li><li><a href="module-MeessageConstants.html">MeessageConstants</a></li><li><a href="module-Message.html">Message</a></li><li><a href="module-MessageAction.html">MessageAction</a></li><li><a href="module-MessageApp.html">MessageApp</a></li><li><a href="module-MessageStore.html">MessageStore</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-About.html">About</a></li><li><a href="module-App.html">App</a></li><li><a href="module-AppDispatcher.html">AppDispatcher</a></li><li><a href="module-Header.html">Header</a></li><li><a href="module-HeaderApp.html">HeaderApp</a></li><li><a href="module-HeaderLogin.html">HeaderLogin</a></li><li><a href="module-HeaderMessageTo.html">HeaderMessageTo</a></li><li><a href="module-MainSection.html">MainSection</a></li><li><a href="module-MeessageConstants.html">MeessageConstants</a></li><li><a href="module-Message.html">Message</a></li><li><a href="module-MessageAction.html">MessageAction</a></li><li><a href="module-MessageApp.html">MessageApp</a></li><li><a href="module-MessageList.html">MessageList</a></li><li><a href="module-MessageStore.html">MessageStore</a></li><li><a href="module-UserActions.html">UserActions</a></li><li><a href="module-UserStore.html">UserStore</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Sun May 03 2015 07:06:13 GMT+0900 (JST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Fri May 15 2015 00:53:14 GMT+0900 (JST)
 </footer>
 
 <script> prettyPrint(); </script>

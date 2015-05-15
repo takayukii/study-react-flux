@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/MessageApp.react.js</title>
+    <title>JSDoc: Source: components/HeaderMessageTo.react.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/MessageApp.react.js</h1>
+    <h1 class="page-title">Source: components/HeaderMessageTo.react.js</h1>
 
     
 
@@ -27,50 +27,37 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
-* @exports MessageApp
+* @exports HeaderMessageTo
 **/
 
+var Promise = require('bluebird');
 var React = require('react');
 var Router = require('react-router');
+var Link = Router.Link;
 var ReactPropTypes = React.PropTypes;
-
-var MessageForm = require('./MessageForm.react');
-var MessageList = require('./MessageList.react');
 var MessageActions = require('../actions/MessageActions');
 var MessageStore = require('../stores/MessageStore');
 
-var MessageApp = React.createClass({displayName: "MessageApp",
-
-  mixins: [ Router.State ],
+var Header = React.createClass({displayName: "Header",
 
   propTypes: {
     authUser: ReactPropTypes.object,
-    messageThread: ReactPropTypes.object
+    messageThread: ReactPropTypes.object,
+    onChangeMessageThread: React.PropTypes.func
   },
 
   getInitialState: function() {
      return {
-      allMessages: [],
+      threadName: '',
     };
   },
 
   componentDidMount: function() {
-
-    MessageStore.addChangeListener(this._onStoreChange);
-
-    var self = this;
-
-    window.io.socket.on('messagethreads', function(message){
-      console.log('io.socket.on messagethreads:', message);
-      if(message.verb === 'updated' &amp;&amp; message.data.message_thread_id === self.props.messageThread.id){
-        MessageActions.receiveCreatedMessage(message.data);
-      }
-    });
-    
+    MessageStore.addChangeListener(this._syncMessageThread);
   },
 
   componentWillUnmount: function() {
-    MessageStore.removeChangeListener(this._onStoreChange);
+    MessageStore.removeChangeListener(this._syncMessageThread);
   },
 
   /**
@@ -78,33 +65,66 @@ var MessageApp = React.createClass({displayName: "MessageApp",
    */
   render: function() {
 
-    console.log('★', this.getParams());
+    if(this.props.authUser){
+      
+      return (
+        React.createElement("ul", {className: "nav navbar-nav"}, 
+          React.createElement("li", {className: "dropdown"}, 
+            React.createElement("a", {href: "#", className: "dropdown-toggle", "data-toggle": "dropdown", role: "button", "aria-expanded": "false"}, "Message To ", React.createElement("span", {className: "caret"})), 
+            React.createElement("ul", {className: "dropdown-menu", role: "menu"}, 
+              React.createElement("li", null, React.createElement(Link, {to: "message", params: {userId: "bob"}, onClick: this._onChangeMessageThreadClick}, "bob")), 
+              React.createElement("li", null, React.createElement(Link, {to: "message", params: {userId: "joe"}, onClick: this._onChangeMessageThreadClick}, "joe"))
+            )
+          )
+        )
+      );
 
-    if(!this.props.authUser || !this.props.messageThread){
-      return null;
+    }else{
+      
+      return (
+        React.createElement("ul", {className: "nav navbar-nav"}
+        )
+      );
+
     }
 
-  	return (
-      React.createElement("div", {className: "message"}, 
-        React.createElement(MessageForm, {authUser: this.props.authUser, messageThread: this.props.messageThread}), 
-        React.createElement(MessageList, {
-          allMessages: this.state.allMessages, authUser: this.props.authUser}
-        )
-      )
-  	);
   },
 
-  /**
-   * Event handler for 'change' events coming from the TodoStore
-   */
-  _onStoreChange: function() {
-    // 変更を検知したら同期する
-    this.setState({allMessages: MessageStore.getAllMessages()});
+  _syncMessageThread: function(){
+
+    var self = this;
+    if(this.props.authUser){
+      
+      MessageStore.findMessageThread(this.state.threadName)
+      .then(function(thread){
+        self.props.onChangeMessageThread(thread);
+      });
+
+    }else{
+      self.props.onChangeMessageThread(null);
+    }
+
+  },
+
+  _onChangeMessageThreadClick: function(/*object*/ event){
+
+    //event.preventDefault();
+
+    var threadName = null;
+    
+    if(this.props.authUser.username > event.target.textContent){
+      threadName = event.target.textContent + '-' + this.props.authUser.username;
+    }else{
+      threadName = this.props.authUser.username + '-' + event.target.textContent;
+    }
+    this.setState({threadName: threadName});
+    MessageActions.findOrCreateMessageThread(threadName);
   },
 
 });
 
-module.exports = MessageApp;</code></pre>
+module.exports = Header;
+</code></pre>
         </article>
     </section>
 

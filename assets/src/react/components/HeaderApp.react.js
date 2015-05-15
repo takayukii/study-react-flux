@@ -4,6 +4,9 @@
 
 var Promise = require('bluebird');
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
+
 var ReactPropTypes = React.PropTypes;
 var UserStore = require('../stores/UserStore');
 
@@ -27,8 +30,8 @@ var Header = React.createClass({
     return (
       <div className="navbar navbar-inverse navbar-fixed-top sample-header" role="navigation">  
         <div className="container">
-          <div className="navbar-header">
-            <a className="navbar-brand" href="#">React Messanger Sample</a>
+          <div className="navbar-header brand">
+            <Link to="about">React Messanger Sample</Link>
           </div>
           <div className="collapse navbar-collapse">
             <HeaderMessageTo authUser={this.props.authUser} messageThread={this.messageThread} onChangeMessageThread={this.props.onChangeMessageThread} />

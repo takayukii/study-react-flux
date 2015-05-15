@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Header.react.js</title>
+    <title>JSDoc: Source: components/MessageForm.react.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Header.react.js</h1>
+    <h1 class="page-title">Source: components/MessageForm.react.js</h1>
 
     
 
@@ -32,9 +32,15 @@
 **/
 
 var React = require('react');
+var ReactPropTypes = React.PropTypes;
 var MessageActions = require('../actions/MessageActions');
 
 var Header = React.createClass({displayName: "Header",
+
+  propTypes: {
+    authUser: ReactPropTypes.object,
+    messageThread: ReactPropTypes.object
+  },
 
   /**
   * @description コンポーネントの初期値を定義する
@@ -52,6 +58,26 @@ var Header = React.createClass({displayName: "Header",
    */
   render: function() {
 
+    if(!this.props.messageThread){
+      return null;
+    }
+
+    var self = this;
+    var messageTo = null;
+    members = this.props.messageThread.name.split(/-/);
+    members.forEach(function(member){
+      if(self.props.authUser.username !== member){
+        if(!messageTo){
+          messageTo = String() + member;
+        }else{
+          messageTo += ', ' + member;
+        }
+      }
+    })
+    if(!messageTo){
+      messageTo = 'myself';
+    }
+
     var textareaStyle = {
       'overflow': 'hidden',
       'word-wrap': 'break-word',
@@ -65,10 +91,11 @@ var Header = React.createClass({displayName: "Header",
           React.createElement("div", {className: "col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1"}, 
             React.createElement("div", {className: "panel message-text clearfix"}, 
 
-              React.createElement("textarea", {onChange: this._onChange, value: this.state.text, 
+              React.createElement("h4", {className: "message-to"}, "To: ", messageTo), 
+              React.createElement("textarea", {onChange: this._onTextChange, value: this.state.text, 
                 style: textareaStyle, placeholder: "先方にメッセージをご記入ください。"}), 
               React.createElement("div", {className: "pull-right"}, 
-                React.createElement("input", {type: "submit", className: "btn btn-primary", value: "メッセージを送信", onClick: this._onClick})
+                React.createElement("input", {type: "submit", className: "btn btn-primary", value: "メッセージを送信", onClick: this._onButtonClick})
               )
 
             )
@@ -82,7 +109,7 @@ var Header = React.createClass({displayName: "Header",
    * @description 都度のテキスト入力に際して、this.setStateし値を更新しておく
    * @param {object} event
    */
-  _onChange: function(/*object*/ event) {
+  _onTextChange: function(/*object*/ event) {
     this.setState({
       text: event.target.value
     });
@@ -92,9 +119,15 @@ var Header = React.createClass({displayName: "Header",
    * @description ボタン押下時にアクションを送出する
    * @param {object} event
    */
-  _onClick: function(e) {
-    console.log('_onClick:', this.state.text);
-    MessageActions.create(this.state.text, new Date());
+  _onButtonClick: function(e) {
+
+    MessageActions.createMessage({
+      authUser: this.props.authUser, 
+      messageThread: this.props.messageThread,
+      text: this.state.text
+    });
+    this.setState({text: ''});
+    
   }
 
 });

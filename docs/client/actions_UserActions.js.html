@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dispatcher/AppDispatcher.js</title>
+    <title>JSDoc: Source: actions/UserActions.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dispatcher/AppDispatcher.js</h1>
+    <h1 class="page-title">Source: actions/UserActions.js</h1>
 
     
 
@@ -27,12 +27,36 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
-* @exports AppDispatcher
+* @exports UserActions
 **/
 
-var Dispatcher = require('flux').Dispatcher;
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var UserConstants = require('../constants/UserConstants');
 
-module.exports = new Dispatcher();</code></pre>
+var UserActions = {
+
+  /**
+   * @param {string} id
+   * @param {string} password
+   */
+  login: function(username, password) {
+    AppDispatcher.dispatch({
+      actionType: UserConstants.USER_LOGIN,
+      username: username,
+      password: password
+    });
+  },
+
+  logout: function() {
+    AppDispatcher.dispatch({
+      actionType: UserConstants.USER_LOGOUT
+    });    
+  }
+
+};
+
+module.exports = UserActions;
+</code></pre>
         </article>
     </section>
 

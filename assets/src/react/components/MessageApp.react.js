@@ -3,6 +3,7 @@
 **/
 
 var React = require('react');
+var Router = require('react-router');
 var ReactPropTypes = React.PropTypes;
 
 var MessageForm = require('./MessageForm.react');
@@ -12,14 +13,25 @@ var MessageStore = require('../stores/MessageStore');
 
 var MessageApp = React.createClass({
 
+  mixins: [ Router.State ],
+
   propTypes: {
     authUser: ReactPropTypes.object,
-    messageThread: ReactPropTypes.object
+    messageThread: ReactPropTypes.object,
+    allMessages: ReactPropTypes.array
+  },
+
+  getDefaultProps: function() {
+    return {
+      authUser: null,
+      messageThread: null,
+      allMessages: []
+    };
   },
 
   getInitialState: function() {
      return {
-      allMessages: [],
+      allMessages: this.props.allMessages
     };
   },
 

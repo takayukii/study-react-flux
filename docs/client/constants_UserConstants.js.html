@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dispatcher/AppDispatcher.js</title>
+    <title>JSDoc: Source: constants/UserConstants.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dispatcher/AppDispatcher.js</h1>
+    <h1 class="page-title">Source: constants/UserConstants.js</h1>
 
     
 
@@ -27,12 +27,16 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
-* @exports AppDispatcher
+* @exports MeessageConstants
 **/
 
-var Dispatcher = require('flux').Dispatcher;
+var keyMirror = require('keymirror');
 
-module.exports = new Dispatcher();</code></pre>
+module.exports = keyMirror({
+  USER_LOGIN: null,
+  USER_LOGOUT: null,
+});
+</code></pre>
         </article>
     </section>
 

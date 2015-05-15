@@ -3,16 +3,26 @@
 **/
 
 var React = require('react');
+var ReactPropTypes = React.PropTypes;
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
 
 var HeaderApp = require('./HeaderApp.react');
 var MessageApp = require('./MessageApp.react');
 
 var App = React.createClass({
 
+  propTypes: {
+    authUser: ReactPropTypes.object,
+    messageThread: ReactPropTypes.object,
+    allMessages: ReactPropTypes.array
+  },
+
   getInitialState: function(){
+
     return {
-      authUser: null,
-      messageThread: null
+      authUser: this.props.authUser,
+      messageThread: this.props.messageThread
     };
   },
 
@@ -44,7 +54,7 @@ var App = React.createClass({
           <div className="row">
             <div className="col-sm-10 col-sm-offset-1">
 
-              <MessageApp authUser={this.state.authUser} messageThread={this.state.messageThread} />
+              <RouteHandler authUser={this.state.authUser} messageThread={this.state.messageThread} allMessages={this.props.allMessages} />
 
             </div>
           </div>

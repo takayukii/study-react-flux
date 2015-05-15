@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Header.react.js</title>
+    <title>JSDoc: Source: components/About.react.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Header.react.js</h1>
+    <h1 class="page-title">Source: components/About.react.js</h1>
 
     
 
@@ -27,79 +27,31 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
-* @exports Header
-* @description 文字入力欄の画面コンポーネント
+* @exports About
 **/
 
 var React = require('react');
-var MessageActions = require('../actions/MessageActions');
 
-var Header = React.createClass({displayName: "Header",
-
-  /**
-  * @description コンポーネントの初期値を定義する
-  * @return {object} State初期値
-  **/
-  getInitialState: function(){
-    return {
-      text: ''
-    };
-  },
+var App = React.createClass({displayName: "App",
 
   /**
-   * @description ヘッダー画面のレイアウト定義
    * @return {object}
    */
   render: function() {
 
-    var textareaStyle = {
-      'overflow': 'hidden',
-      'word-wrap': 'break-word',
-      'resize': 'none',
-      'height': '62px'
-    };
+    console.log("About called");
 
     return (
-      React.createElement("div", {className: "thread-list-item"}, 
-        React.createElement("div", {className: "row"}, 
-          React.createElement("div", {className: "col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1"}, 
-            React.createElement("div", {className: "panel message-text clearfix"}, 
-
-              React.createElement("textarea", {onChange: this._onChange, value: this.state.text, 
-                style: textareaStyle, placeholder: "先方にメッセージをご記入ください。"}), 
-              React.createElement("div", {className: "pull-right"}, 
-                React.createElement("input", {type: "submit", className: "btn btn-primary", value: "メッセージを送信", onClick: this._onClick})
-              )
-
-            )
-          )
-        )
+      React.createElement("div", null, 
+        React.createElement("h1", null, "サンプルメッセンジャー")
       )
     );
-  },
 
-  /**
-   * @description 都度のテキスト入力に際して、this.setStateし値を更新しておく
-   * @param {object} event
-   */
-  _onChange: function(/*object*/ event) {
-    this.setState({
-      text: event.target.value
-    });
   },
-
-  /**
-   * @description ボタン押下時にアクションを送出する
-   * @param {object} event
-   */
-  _onClick: function(e) {
-    console.log('_onClick:', this.state.text);
-    MessageActions.create(this.state.text, new Date());
-  }
 
 });
 
-module.exports = Header;
+module.exports = App;
 </code></pre>
         </article>
     </section>

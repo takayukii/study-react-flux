@@ -26,6 +26,7 @@ var Header = React.createClass({
   },
 
   componentDidMount: function() {
+
     this._syncAuth();
     UserStore.addChangeListener(this._onStoreEvent);
   },
