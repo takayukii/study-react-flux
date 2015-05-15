@@ -5,7 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
-    "_common": "file:local_modules/_common",
+    "my-utils": "file:lib/utils",
     "bluebird": "^2.9.25",
     "ejs": "~0.8.4",
     "grunt": "0.4.2",

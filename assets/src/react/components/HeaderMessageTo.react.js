@@ -9,7 +9,7 @@ var Link = Router.Link;
 var ReactPropTypes = React.PropTypes;
 var MessageActions = require('../actions/MessageActions');
 var MessageStore = require('../stores/MessageStore');
-var _Common = require('_common');
+var utils = require('my-utils');
 
 var Header = React.createClass({
 
@@ -81,7 +81,7 @@ var Header = React.createClass({
 
   _onChangeMessageThreadClick: function(/*object*/ event){
 
-    var threadName = _Common.getMessageThreadName(this.props.authUser.username, event.target.textContent);
+    var threadName = utils.getMessageThreadName(this.props.authUser.username, event.target.textContent);
     this.setState({threadName: threadName});
     MessageActions.findOrCreateMessageThread(threadName);
     

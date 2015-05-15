@@ -9,7 +9,7 @@ var React   = require('react'),
     Router  = require('react-router'),
     Route   = Router.Route,
     Promise = require('bluebird'),
-    _Common = require('_common')
+    utils = require('my-utils')
 ;
 require('node-jsx').install();
 
@@ -40,7 +40,7 @@ module.exports = {
 
     if(req.session.user){
 
-      var threadName = _Common.getMessageThreadName(req.session.user.username, req.params.userName);
+      var threadName = utils.getMessageThreadName(req.session.user.username, req.params.userName);
 
       // TODO 重複コード
       MessageThreads.find({name: threadName})
