@@ -63,8 +63,8 @@ var Header = React.createClass({
       return (
         <Nav navbar>
           <DropdownButton eventKey={3} title='Message To'>
-            <MenuItem eventKey='1' onSelect={this._onSelect}><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></MenuItem>
-            <MenuItem eventKey='2' onSelect={this._onSelect}><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></MenuItem>
+            <MenuItem className="menuitem-fix" eventKey='1' onSelect={this._onSelect}><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></MenuItem>
+            <MenuItem className="menuitem-fix" eventKey='2' onSelect={this._onSelect}><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></MenuItem>
           </DropdownButton>
         </Nav>
       );

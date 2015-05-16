@@ -23,6 +23,16 @@ textarea {
   color: $font_color;
 }
 
+/* React-Bootstrap のDromdownMenuのMenuItemのaを打ち消すハック（React-Routerと相性が悪いため） */
+
+.dropdown-menu {
+  .menuitem-fix {
+    a[href="#"] {
+      display: none;
+    }
+  }
+}
+
 /* floatによる要素のズレを防止するクラス */
 
 .clearfix {

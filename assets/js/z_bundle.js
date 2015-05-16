@@ -428,8 +428,8 @@ var Header = React.createClass({displayName: "Header",
       return (
         React.createElement(Nav, {navbar: true}, 
           React.createElement(DropdownButton, {eventKey: 3, title: "Message To"}, 
-            React.createElement(MenuItem, {eventKey: "1", onSelect: this._onSelect}, React.createElement(Link, {to: "message", params: {userId: "bob"}, onClick: this._onChangeMessageThreadClick}, "bob")), 
-            React.createElement(MenuItem, {eventKey: "2", onSelect: this._onSelect}, React.createElement(Link, {to: "message", params: {userId: "joe"}, onClick: this._onChangeMessageThreadClick}, "joe"))
+            React.createElement(MenuItem, {className: "menuitem-fix", eventKey: "1", onSelect: this._onSelect}, React.createElement(Link, {to: "message", params: {userId: "bob"}, onClick: this._onChangeMessageThreadClick}, "bob")), 
+            React.createElement(MenuItem, {className: "menuitem-fix", eventKey: "2", onSelect: this._onSelect}, React.createElement(Link, {to: "message", params: {userId: "joe"}, onClick: this._onChangeMessageThreadClick}, "joe"))
           )
         )
       );

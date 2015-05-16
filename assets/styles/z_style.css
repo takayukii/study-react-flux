@@ -31,20 +31,25 @@ textarea {
   background-color: #fff;
   color: #565a5c; }
 
+/* React-Bootstrap のDromdownMenuのMenuItemのaを打ち消すハック（React-Routerと相性が悪いため） */
+/* line 30, ../src/compass/sass/_common.scss */
+.dropdown-menu .menuitem-fix a[href="#"] {
+  display: none; }
+
 /* floatによる要素のズレを防止するクラス */
-/* line 29, ../src/compass/sass/_common.scss */
+/* line 39, ../src/compass/sass/_common.scss */
 .clearfix:after {
   content: " ";
   display: table; }
 
 /* 丸型写真 */
-/* line 38, ../src/compass/sass/_common.scss */
+/* line 48, ../src/compass/sass/_common.scss */
 .photo-round img {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%; }
 
-/* line 44, ../src/compass/sass/_common.scss */
+/* line 54, ../src/compass/sass/_common.scss */
 .photo-zoom img {
   width: 40px;
   height: 40px;
@@ -52,13 +57,13 @@ textarea {
   -o-transition: all 1s ease;
   -webkit-transition: all 1s ease;
   transition: all 1s ease; }
-/* line 49, ../src/compass/sass/_common.scss */
+/* line 59, ../src/compass/sass/_common.scss */
 .photo-zoom img:hover {
   width: 45px;
   height: 45px; }
 
 /* パネル */
-/* line 58, ../src/compass/sass/_common.scss */
+/* line 68, ../src/compass/sass/_common.scss */
 .panel {
   margin: 0 5px;
   padding: 10px;
@@ -69,7 +74,7 @@ textarea {
   border-radius: 0; }
 
 /* 吹き出しパネル（左から） */
-/* line 78, ../src/compass/sass/_common.scss */
+/* line 88, ../src/compass/sass/_common.scss */
 .panel-quote-left:before {
   content: "";
   display: inline-block;
@@ -80,7 +85,7 @@ textarea {
   left: 0px;
   border: 10px solid transparent;
   border-right-color: #dce0e0; }
-/* line 84, ../src/compass/sass/_common.scss */
+/* line 94, ../src/compass/sass/_common.scss */
 .panel-quote-left:after {
   content: "";
   display: inline-block;
@@ -93,7 +98,7 @@ textarea {
   border-right-color: #fff; }
 
 /* 吹き出しパネル（右から） */
-/* line 104, ../src/compass/sass/_common.scss */
+/* line 114, ../src/compass/sass/_common.scss */
 .panel-quote-right:before {
   content: "";
   display: inline-block;
@@ -104,7 +109,7 @@ textarea {
   right: 0px;
   border: 10px solid transparent;
   border-left-color: #dce0e0; }
-/* line 110, ../src/compass/sass/_common.scss */
+/* line 120, ../src/compass/sass/_common.scss */
 .panel-quote-right:after {
   content: "";
   display: inline-block;
