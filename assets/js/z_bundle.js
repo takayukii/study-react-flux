@@ -26,6 +26,7 @@ var MessageActions = {
   },
 
   findOrCreateMessageThread: function(threadName) {
+
     AppDispatcher.dispatch({
       actionType: MessageConstants.THREAD_FIND_OR_CREATE,
       name: threadName
@@ -106,9 +107,7 @@ var App = React.createClass({displayName: "App",
             React.createElement("li", null, "React - View Component JS framework which is getting popular rapidly"), 
             React.createElement("li", null, "flux - Frontend framework / architecture which well woking with React"), 
             React.createElement("li", null, "React Router - Router Component for React"), 
-            React.createElement("li", null, "Server Side Rendering - One of awesome capabilities of React"), 
-            React.createElement("li", null, "EcmaScript6.."), 
-            React.createElement("li", null, "Babel..")
+            React.createElement("li", null, "Server Side Rendering - One of awesome capabilities of React")
           ), 
           React.createElement("p", null, React.createElement("a", {className: "btn btn-primary btn-lg", href: "#", role: "button"}, "Learn more"))
         )
@@ -143,7 +142,6 @@ var App = React.createClass({displayName: "App",
   },
 
   getInitialState: function(){
-
     return {
       authUser: this.props.authUser,
       messageThread: this.props.messageThread
@@ -240,7 +238,7 @@ var Header = React.createClass({displayName: "Header",
             React.createElement(Link, {to: "about"}, "React Messanger Sample")
           ), 
           React.createElement("div", {className: "collapse navbar-collapse"}, 
-            React.createElement(HeaderMessageTo, {authUser: this.props.authUser, messageThread: this.messageThread, onChangeMessageThread: this.props.onChangeMessageThread}), 
+            React.createElement(HeaderMessageTo, {authUser: this.props.authUser, messageThread: this.props.messageThread, onChangeMessageThread: this.props.onChangeMessageThread}), 
             React.createElement(HeaderLogin, {authUser: this.props.authUser, onLogin: this.props.onLogin})
           )
         )
@@ -254,7 +252,7 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"../stores/UserStore":18,"./HeaderLogin.react":7,"./HeaderMessageTo.react":8,"bluebird":20,"react":243,"react-router":73}],7:[function(require,module,exports){
+},{"../stores/UserStore":18,"./HeaderLogin.react":7,"./HeaderMessageTo.react":8,"bluebird":19,"react":243,"react-router":73}],7:[function(require,module,exports){
 /**
 * @exports HeaderLogin
 **/
@@ -283,7 +281,6 @@ var Header = React.createClass({displayName: "Header",
   },
 
   componentDidMount: function() {
-
     this._syncAuth();
     UserStore.addChangeListener(this._onStoreEvent);
   },
@@ -366,7 +363,7 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"../actions/UserActions":2,"../stores/UserStore":18,"bluebird":20,"react":243}],8:[function(require,module,exports){
+},{"../actions/UserActions":2,"../stores/UserStore":18,"bluebird":19,"react":243}],8:[function(require,module,exports){
 /**
 * @exports HeaderMessageTo
 **/
@@ -378,7 +375,7 @@ var Link = Router.Link;
 var ReactPropTypes = React.PropTypes;
 var MessageActions = require('../actions/MessageActions');
 var MessageStore = require('../stores/MessageStore');
-var _Common = require('_common');
+var utils = require('my-utils');
 
 var Header = React.createClass({displayName: "Header",
 
@@ -389,8 +386,12 @@ var Header = React.createClass({displayName: "Header",
   },
 
   getInitialState: function() {
-     return {
-      threadName: '',
+    var threadName = '';
+    if(this.props.messageThread){
+      threadName = this.props.messageThread.name;
+    }
+    return {
+      threadName: threadName,
     };
   },
 
@@ -434,23 +435,23 @@ var Header = React.createClass({displayName: "Header",
 
   _syncMessageThread: function(){
 
-    var self = this;
     if(this.props.authUser){
       
+      var self = this;
       MessageStore.findMessageThread(this.state.threadName)
       .then(function(thread){
         self.props.onChangeMessageThread(thread);
       });
 
     }else{
-      self.props.onChangeMessageThread(null);
+      this.props.onChangeMessageThread(null);
     }
 
   },
 
   _onChangeMessageThreadClick: function(/*object*/ event){
 
-    var threadName = _Common.getMessageThreadName(this.props.authUser.username, event.target.textContent);
+    var threadName = utils.getMessageThreadName(this.props.authUser.username, event.target.textContent);
     this.setState({threadName: threadName});
     MessageActions.findOrCreateMessageThread(threadName);
     
@@ -460,7 +461,7 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"../actions/MessageActions":1,"../stores/MessageStore":17,"_common":19,"bluebird":20,"react":243,"react-router":73}],9:[function(require,module,exports){
+},{"../actions/MessageActions":1,"../stores/MessageStore":17,"bluebird":19,"my-utils":25,"react":243,"react-router":73}],9:[function(require,module,exports){
 /**
 * @exports Message
 **/
@@ -643,6 +644,10 @@ var MessageApp = React.createClass({displayName: "MessageApp",
   componentDidMount: function() {
 
     MessageStore.addChangeListener(this._onStoreChange);
+    // MessageStore.initialize(this.props.allMessages);
+    if(this.props.messageThread){
+      MessageActions.findOrCreateMessageThread(this.props.messageThread.name);
+    }
 
     var self = this;
 
@@ -854,7 +859,7 @@ module.exports = keyMirror({
   THREAD_FIND_OR_CREATE: null
 });
 
-},{"keymirror":24}],14:[function(require,module,exports){
+},{"keymirror":23}],14:[function(require,module,exports){
 /**
 * @exports MeessageConstants
 **/
@@ -866,7 +871,7 @@ module.exports = keyMirror({
   USER_LOGOUT: null,
 });
 
-},{"keymirror":24}],15:[function(require,module,exports){
+},{"keymirror":23}],15:[function(require,module,exports){
 /**
 * @exports AppDispatcher
 **/
@@ -874,7 +879,7 @@ module.exports = keyMirror({
 var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
-},{"flux":21}],16:[function(require,module,exports){
+},{"flux":20}],16:[function(require,module,exports){
 var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
@@ -908,6 +913,10 @@ var CHANGE_EVENT = 'change';
 
 var _messages = TAFFY();
 
+function initialize(messages) {
+  _messages = TAFFY(messages);
+}
+
 /**
  * Create a Message.
  * @param  {object} message
@@ -936,7 +945,11 @@ function receiveCreatedMessage(message) {
 }
 
 function findOrCreateMessageThread(threadName) {
-  console.log('MessageStore.findOrCreateMessageThread', threadName);
+
+  console.log('MessageStore.findOrCreateMessageThread:prams: ', threadName);
+  var err = new Error();
+  console.log(err.stack);
+  
   return new Promise(function(resolve, reject){
 
     window.io.socket.get('/messages/findMessageThread', {
@@ -967,6 +980,10 @@ function getAllMessages(){
 
 
 var MessageStore = assign({}, EventEmitter.prototype, {
+
+  initialize: function(messages){
+    initialize(messages);
+  },
 
   /**
    * Get the entire collection of Messages.
@@ -1054,7 +1071,7 @@ MessageStore.dispatchToken = AppDispatcher.register(function(action) {
 
 module.exports = MessageStore;
 
-},{"../constants/MessageConstants":13,"../dispatcher/AppDispatcher":15,"bluebird":20,"events":249,"lodash":25,"node-taffydb":26,"object-assign":28}],18:[function(require,module,exports){
+},{"../constants/MessageConstants":13,"../dispatcher/AppDispatcher":15,"bluebird":19,"events":249,"lodash":24,"node-taffydb":26,"object-assign":28}],18:[function(require,module,exports){
 /**
 * @exports UserStore
 **/
@@ -1188,25 +1205,7 @@ UserStore.dispatchToken = AppDispatcher.register(function(action) {
 
 module.exports = UserStore;
 
-},{"../constants/UserConstants":14,"../dispatcher/AppDispatcher":15,"bluebird":20,"events":249,"lodash":25,"object-assign":28,"superagent-promise":244}],19:[function(require,module,exports){
-var _Common = {
-
-  getMessageThreadName: function(name1, name2){
-
-    var threadName = null;
-    
-    if(name1 > name2){
-      threadName = name2 + '-' + name1;
-    }else{
-      threadName = name1 + '-' + name2;
-    }
-    return threadName;
-  }
-
-};
-
-module.exports = _Common;
-},{}],20:[function(require,module,exports){
+},{"../constants/UserConstants":14,"../dispatcher/AppDispatcher":15,"bluebird":19,"events":249,"lodash":24,"object-assign":28,"superagent-promise":244}],19:[function(require,module,exports){
 (function (process,global){
 /* @preserve
  * The MIT License (MIT)
@@ -6306,7 +6305,7 @@ function isUndefined(arg) {
 },{}]},{},[4])(4)
 });                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":250}],21:[function(require,module,exports){
+},{"_process":250}],20:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -6318,7 +6317,7 @@ function isUndefined(arg) {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":22}],22:[function(require,module,exports){
+},{"./lib/Dispatcher":21}],21:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -6570,7 +6569,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":23}],23:[function(require,module,exports){
+},{"./invariant":22}],22:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -6625,7 +6624,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],24:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * Copyright 2013-2014 Facebook, Inc.
  *
@@ -6680,7 +6679,7 @@ var keyMirror = function(obj) {
 
 module.exports = keyMirror;
 
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -18850,6 +18849,24 @@ module.exports = keyMirror;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],25:[function(require,module,exports){
+var _Common = {
+
+  getMessageThreadName: function(name1, name2){
+
+    var threadName = null;
+    
+    if(name1 > name2){
+      threadName = name2 + '-' + name1;
+    }else{
+      threadName = name1 + '-' + name2;
+    }
+    return threadName;
+  }
+
+};
+
+module.exports = _Common;
 },{}],26:[function(require,module,exports){
 exports.TAFFY = require('./taffy').taffy;
 

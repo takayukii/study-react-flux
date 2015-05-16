@@ -38,6 +38,10 @@ var MessageApp = React.createClass({
   componentDidMount: function() {
 
     MessageStore.addChangeListener(this._onStoreChange);
+    // MessageStore.initialize(this.props.allMessages);
+    if(this.props.messageThread){
+      MessageActions.findOrCreateMessageThread(this.props.messageThread.name);
+    }
 
     var self = this;
 

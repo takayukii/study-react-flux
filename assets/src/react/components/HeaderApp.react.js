@@ -34,7 +34,7 @@ var Header = React.createClass({
             <Link to="about">React Messanger Sample</Link>
           </div>
           <div className="collapse navbar-collapse">
-            <HeaderMessageTo authUser={this.props.authUser} messageThread={this.messageThread} onChangeMessageThread={this.props.onChangeMessageThread} />
+            <HeaderMessageTo authUser={this.props.authUser} messageThread={this.props.messageThread} onChangeMessageThread={this.props.onChangeMessageThread} />
             <HeaderLogin authUser={this.props.authUser} onLogin={this.props.onLogin} />
           </div> 
         </div>

@@ -24,8 +24,6 @@ var App = React.createClass({
             <li>flux - Frontend framework / architecture which well woking with React</li>
             <li>React Router - Router Component for React</li>
             <li>Server Side Rendering - One of awesome capabilities of React</li>
-            <li>EcmaScript6..</li>
-            <li>Babel..</li>
           </ul>
           <p><a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
         </div>

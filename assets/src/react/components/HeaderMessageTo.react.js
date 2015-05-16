@@ -20,8 +20,12 @@ var Header = React.createClass({
   },
 
   getInitialState: function() {
-     return {
-      threadName: '',
+    var threadName = '';
+    if(this.props.messageThread){
+      threadName = this.props.messageThread.name;
+    }
+    return {
+      threadName: threadName,
     };
   },
 
@@ -65,16 +69,16 @@ var Header = React.createClass({
 
   _syncMessageThread: function(){
 
-    var self = this;
     if(this.props.authUser){
       
+      var self = this;
       MessageStore.findMessageThread(this.state.threadName)
       .then(function(thread){
         self.props.onChangeMessageThread(thread);
       });
 
     }else{
-      self.props.onChangeMessageThread(null);
+      this.props.onChangeMessageThread(null);
     }
 
   },

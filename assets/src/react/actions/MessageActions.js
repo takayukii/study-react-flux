@@ -25,6 +25,7 @@ var MessageActions = {
   },
 
   findOrCreateMessageThread: function(threadName) {
+
     AppDispatcher.dispatch({
       actionType: MessageConstants.THREAD_FIND_OR_CREATE,
       name: threadName

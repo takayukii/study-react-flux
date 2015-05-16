@@ -19,7 +19,6 @@ var App = React.createClass({
   },
 
   getInitialState: function(){
-
     return {
       authUser: this.props.authUser,
       messageThread: this.props.messageThread

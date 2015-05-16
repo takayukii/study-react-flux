@@ -14,6 +14,10 @@ var CHANGE_EVENT = 'change';
 
 var _messages = TAFFY();
 
+function initialize(messages) {
+  _messages = TAFFY(messages);
+}
+
 /**
  * Create a Message.
  * @param  {object} message
@@ -42,7 +46,11 @@ function receiveCreatedMessage(message) {
 }
 
 function findOrCreateMessageThread(threadName) {
-  console.log('MessageStore.findOrCreateMessageThread', threadName);
+
+  console.log('MessageStore.findOrCreateMessageThread:prams: ', threadName);
+  var err = new Error();
+  console.log(err.stack);
+  
   return new Promise(function(resolve, reject){
 
     window.io.socket.get('/messages/findMessageThread', {
@@ -73,6 +81,10 @@ function getAllMessages(){
 
 
 var MessageStore = assign({}, EventEmitter.prototype, {
+
+  initialize: function(messages){
+    initialize(messages);
+  },
 
   /**
    * Get the entire collection of Messages.
