@@ -100,16 +100,7 @@ var App = React.createClass({displayName: "App",
       React.createElement("div", {className: "about"}, 
         React.createElement("div", {className: "jumbotron mission"}, 
           React.createElement("h1", null, "React Messanger Sample"), 
-          React.createElement("p", null, "This boilerplate project includes following technologies to study frontend web development"), 
-          React.createElement("ul", null, 
-            React.createElement("li", null, "SCSS - CSS pre-processor"), 
-            React.createElement("li", null, "Compass - CSS framework based on SASS/SCSS"), 
-            React.createElement("li", null, "React - View Component JS framework which is getting popular rapidly"), 
-            React.createElement("li", null, "flux - Frontend framework / architecture which well woking with React"), 
-            React.createElement("li", null, "React Router - Router Component for React"), 
-            React.createElement("li", null, "Server Side Rendering - One of awesome capabilities of React")
-          ), 
-          React.createElement("p", null, React.createElement("a", {className: "btn btn-primary btn-lg", href: "#", role: "button"}, "Learn more"))
+          React.createElement("p", null, "メッセンジャーのサンプルです。右上の Login As からログインして、 Message To で送信相手を選択します。")
         )
       )
     );
@@ -883,19 +874,23 @@ module.exports = new Dispatcher();
 var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
+var DefaultRoute = Router.DefaultRoute;
 
 var App = require('./components/App.react');
 var MessageApp = require('./components/MessageApp.react');
 var About = require('./components/About.react');
 
 module.exports = function() {
+  console.log('★DefaultRoute仕込んだ');
   return (
     React.createElement(Route, {handler: App, path: "/"}, 
+      React.createElement(DefaultRoute, {handler: About}), 
       React.createElement(Route, {name: "message", path: "/message/:userId", handler: MessageApp}), 
       React.createElement(Route, {name: "about", path: "/about", handler: About})
     )
   );
 };
+
 },{"./components/About.react":4,"./components/App.react":5,"./components/MessageApp.react":10,"react":243,"react-router":73}],17:[function(require,module,exports){
 /**
 * @exports MessageStore
