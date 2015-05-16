@@ -47,10 +47,6 @@ function receiveCreatedMessage(message) {
 
 function findOrCreateMessageThread(threadName) {
 
-  console.log('MessageStore.findOrCreateMessageThread:prams: ', threadName);
-  var err = new Error();
-  console.log(err.stack);
-  
   return new Promise(function(resolve, reject){
 
     window.io.socket.get('/messages/findMessageThread', {

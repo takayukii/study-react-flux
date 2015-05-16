@@ -60,7 +60,7 @@ var Header = React.createClass({
     return (
       <div className="thread-list-item">
         <div className="row">
-          <div className="col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1">
+          <div className="col-xs-12 col-md-10 col-md-offset-1">
             <div className="panel message-text clearfix">
 
               <h4 className="message-to">To: {messageTo}</h4>

@@ -32,6 +32,10 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'GET /design': {
+    view: 'homepage'
+  },
+
   'GET /': 'ServerRenderingController.about',
 
   'GET /about': 'ServerRenderingController.about',

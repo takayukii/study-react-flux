@@ -13,6 +13,13 @@ var UserStore = require('../stores/UserStore');
 var HeaderLogin = require('./HeaderLogin.react');
 var HeaderMessageTo = require('./HeaderMessageTo.react');
 
+var Navbar = require('react-bootstrap/lib/Navbar');
+var CollapsibleNav = require('react-bootstrap/lib/CollapsibleNav');
+var Nav = require('react-bootstrap/lib/Nav');
+var NavItem = require('react-bootstrap/lib/NavItem');
+var DropdownButton = require('react-bootstrap/lib/DropdownButton');
+var MenuItem = require('react-bootstrap/lib/MenuItem');
+
 var Header = React.createClass({
 
   propTypes: {
@@ -28,17 +35,12 @@ var Header = React.createClass({
   render: function() {
 
     return (
-      <div className="navbar navbar-inverse navbar-fixed-top sample-header" role="navigation">  
-        <div className="container">
-          <div className="navbar-header brand">
-            <Link to="about">React Messanger Sample</Link>
-          </div>
-          <div className="collapse navbar-collapse">
-            <HeaderMessageTo authUser={this.props.authUser} messageThread={this.props.messageThread} onChangeMessageThread={this.props.onChangeMessageThread} />
-            <HeaderLogin authUser={this.props.authUser} onLogin={this.props.onLogin} />
-          </div> 
-        </div>
-      </div>
+      <Navbar brand={<Link to="about">React Messanger</Link>} inverse toggleNavKey={0}>
+        <CollapsibleNav eventKey={0}> {/* This is the eventKey referenced */}
+          <HeaderMessageTo authUser={this.props.authUser} messageThread={this.props.messageThread} onChangeMessageThread={this.props.onChangeMessageThread} />
+          <HeaderLogin authUser={this.props.authUser} onLogin={this.props.onLogin} />
+        </CollapsibleNav>
+      </Navbar>
     );
 
   },

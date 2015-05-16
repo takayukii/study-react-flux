@@ -8,7 +8,6 @@ var MessageApp = require('./components/MessageApp.react');
 var About = require('./components/About.react');
 
 module.exports = function() {
-  console.log('★DefaultRoute仕込んだ');
   return (
     <Route handler={App} path="/">
       <DefaultRoute handler={About}/>

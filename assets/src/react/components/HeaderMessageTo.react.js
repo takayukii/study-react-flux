@@ -11,6 +11,12 @@ var MessageActions = require('../actions/MessageActions');
 var MessageStore = require('../stores/MessageStore');
 var utils = require('my-utils');
 
+var Navbar = require('react-bootstrap/lib/Navbar');
+var Nav = require('react-bootstrap/lib/Nav');
+var NavItem = require('react-bootstrap/lib/NavItem');
+var DropdownButton = require('react-bootstrap/lib/DropdownButton');
+var MenuItem = require('react-bootstrap/lib/MenuItem');
+
 var Header = React.createClass({
 
   propTypes: {
@@ -37,6 +43,16 @@ var Header = React.createClass({
     MessageStore.removeChangeListener(this._syncMessageThread);
   },
 
+        // <ul className="nav navbar-nav">
+        //   <li className="dropdown">
+        //     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Message To <span className="caret"></span></a>
+        //     <ul className="dropdown-menu" role="menu">
+        //       <li><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></li>
+        //       <li><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></li>
+        //     </ul>
+        //   </li>
+        // </ul>
+
   /**
    * @return {object}
    */
@@ -45,22 +61,19 @@ var Header = React.createClass({
     if(this.props.authUser){
       
       return (
-        <ul className="nav navbar-nav">
-          <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Message To <span className="caret"></span></a>
-            <ul className="dropdown-menu" role="menu">
-              <li><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></li>
-              <li><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></li>
-            </ul>
-          </li>
-        </ul>
+        <Nav navbar>
+          <DropdownButton eventKey={3} title='Message To'>
+            <MenuItem eventKey='1' onSelect={this._onSelect}><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></MenuItem>
+            <MenuItem eventKey='2' onSelect={this._onSelect}><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></MenuItem>
+          </DropdownButton>
+        </Nav>
       );
 
     }else{
       
       return (
-        <ul className="nav navbar-nav">
-        </ul>
+        <Nav navbar right>
+        </Nav>
       );
 
     }
@@ -90,6 +103,10 @@ var Header = React.createClass({
     MessageActions.findOrCreateMessageThread(threadName);
     
   },
+
+  _onSelect: function(event){
+    // 設定しないとドロップダウンがオープンした状態のままになる
+  }
 
 });
 

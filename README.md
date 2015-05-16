@@ -48,3 +48,5 @@ http://qiita.com/advent-calendar/2014/reactjs
 https://github.com/romanmatiasko/reti-chess/tree/master/src/js
 
 sails.ioの場合は、sails.io.js単独で接続から再接続までを管理するので、ひとまずここは完全に切り離してwindow.ioから利用するようにしている。
+
+サーバーサイドレンダリングははまったが、サーバーサイドでReactで構築したビューとブラウザ上で構築されるビューが同じものにならなければならない。そのためにサーバーサイドでもデータを流し込んで、HandlerとなるComponentにpropsを渡してビュー生成するが、ブラウザでもデータをなんらかの方式（今回はJSONの埋め込み）でpropsを渡してビュー生成する。後から入れるより最初から入れておいたほうがだいぶラク。主にpropsのインタフェース設計と、componentDidMount等の動作系に影響する。また今回はsails.ioも使っているので、どのタイミングでどのようにサブスクライブするかも検討する必要が生じる。後から変更を入れると辛い。

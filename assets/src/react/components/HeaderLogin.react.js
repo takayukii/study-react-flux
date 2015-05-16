@@ -8,6 +8,12 @@ var ReactPropTypes = React.PropTypes;
 var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
 
+var Navbar = require('react-bootstrap/lib/Navbar');
+var Nav = require('react-bootstrap/lib/Nav');
+var NavItem = require('react-bootstrap/lib/NavItem');
+var DropdownButton = require('react-bootstrap/lib/DropdownButton');
+var MenuItem = require('react-bootstrap/lib/MenuItem');
+
 var Header = React.createClass({
 
   propTypes: {
@@ -42,46 +48,36 @@ var Header = React.createClass({
     if(this.props.authUser){
       
       return (
-        <ul className="nav navbar-nav pull-right">
-          <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{this.props.authUser.username}</a>
-            <ul className="dropdown-menu" role="menu">
-              <li><a href="#" onClick={this._onLogoutClick}>Logout</a></li>
-            </ul>
-          </li>
-        </ul>
+        <Nav navbar right>
+          <DropdownButton inverse eventKey={3} title={this.props.authUser.username}>
+            <MenuItem eventKey='logout' onSelect={this._onSelect}>Logout</MenuItem>
+          </DropdownButton>
+        </Nav>
       );
 
     }else{
       
       return (
-        <ul className="nav navbar-nav pull-right">
-          <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Login As <span className="caret"></span></a>
-            <ul className="dropdown-menu" role="menu">
-              <li><a href="#" onClick={this._onLoginClick}>bob</a></li>
-              <li><a href="#" onClick={this._onLoginClick}>joe</a></li>
-            </ul>
-          </li>
-        </ul>
+        <Nav navbar right>
+          <DropdownButton inverse eventKey={3} title='Login As'>
+            <MenuItem eventKey='bob' onSelect={this._onSelect}>bob</MenuItem>
+            <MenuItem eventKey='joe' onSelect={this._onSelect}>joe</MenuItem>
+          </DropdownButton>
+        </Nav>
       );
 
     }
 
   },
 
-  /**
-   * @description Login Asを選択時にアクションを送出する
-   * @param {object} event
-   */
-  _onLoginClick: function(/*object*/ event) {
-    event.preventDefault();
-    UserActions.login(event.target.textContent, 'password');
-  },
+  _onSelect: function(selected){
 
-  _onLogoutClick: function(/*object*/ event) {
-    event.preventDefault();
-    UserActions.logout();
+    if(selected === 'logout'){
+      UserActions.logout();
+    }else{
+      UserActions.login(selected, 'password');
+    }
+
   },
 
   _onStoreEvent: function() {
