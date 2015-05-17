@@ -242,8 +242,10 @@ var Header = React.createClass({displayName: "Header",
     return (
       React.createElement(Navbar, {brand: React.createElement(Link, {to: "about"}, "React Messanger"), inverse: true, toggleNavKey: 0}, 
         React.createElement(CollapsibleNav, {eventKey: 0}, " ", /* This is the eventKey referenced */
-          React.createElement(HeaderMessageTo, {authUser: this.props.authUser, messageThread: this.props.messageThread, onChangeMessageThread: this.props.onChangeMessageThread}), 
-          React.createElement(HeaderLogin, {authUser: this.props.authUser, onLogin: this.props.onLogin})
+          React.createElement("div", {className: "header-right-items"}, 
+            React.createElement(HeaderMessageTo, {authUser: this.props.authUser, messageThread: this.props.messageThread, onChangeMessageThread: this.props.onChangeMessageThread}), 
+            React.createElement(HeaderLogin, {authUser: this.props.authUser, onLogin: this.props.onLogin})
+          )
         )
       )
     );
@@ -306,7 +308,7 @@ var Header = React.createClass({displayName: "Header",
     if(this.props.authUser){
       
       return (
-        React.createElement(Nav, {navbar: true, right: true}, 
+        React.createElement(Nav, {navbar: true}, 
           React.createElement(DropdownButton, {inverse: true, eventKey: 3, title: this.props.authUser.username}, 
             React.createElement(MenuItem, {eventKey: "logout", onSelect: this._onSelect}, "Logout")
           )
@@ -316,7 +318,7 @@ var Header = React.createClass({displayName: "Header",
     }else{
       
       return (
-        React.createElement(Nav, {navbar: true, right: true}, 
+        React.createElement(Nav, {navbar: true}, 
           React.createElement(DropdownButton, {inverse: true, eventKey: 3, title: "Login As"}, 
             React.createElement(MenuItem, {eventKey: "bob", onSelect: this._onSelect}, "bob"), 
             React.createElement(MenuItem, {eventKey: "joe", onSelect: this._onSelect}, "joe")
@@ -407,16 +409,6 @@ var Header = React.createClass({displayName: "Header",
   componentWillUnmount: function() {
     MessageStore.removeChangeListener(this._syncMessageThread);
   },
-
-        // <ul className="nav navbar-nav">
-        //   <li className="dropdown">
-        //     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Message To <span className="caret"></span></a>
-        //     <ul className="dropdown-menu" role="menu">
-        //       <li><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></li>
-        //       <li><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></li>
-        //     </ul>
-        //   </li>
-        // </ul>
 
   /**
    * @return {object}

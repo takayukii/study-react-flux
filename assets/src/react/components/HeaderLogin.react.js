@@ -48,7 +48,7 @@ var Header = React.createClass({
     if(this.props.authUser){
       
       return (
-        <Nav navbar right>
+        <Nav navbar>
           <DropdownButton inverse eventKey={3} title={this.props.authUser.username}>
             <MenuItem eventKey='logout' onSelect={this._onSelect}>Logout</MenuItem>
           </DropdownButton>
@@ -58,7 +58,7 @@ var Header = React.createClass({
     }else{
       
       return (
-        <Nav navbar right>
+        <Nav navbar>
           <DropdownButton inverse eventKey={3} title='Login As'>
             <MenuItem eventKey='bob' onSelect={this._onSelect}>bob</MenuItem>
             <MenuItem eventKey='joe' onSelect={this._onSelect}>joe</MenuItem>

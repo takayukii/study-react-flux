@@ -37,8 +37,10 @@ var Header = React.createClass({
     return (
       <Navbar brand={<Link to="about">React Messanger</Link>} inverse toggleNavKey={0}>
         <CollapsibleNav eventKey={0}> {/* This is the eventKey referenced */}
-          <HeaderMessageTo authUser={this.props.authUser} messageThread={this.props.messageThread} onChangeMessageThread={this.props.onChangeMessageThread} />
-          <HeaderLogin authUser={this.props.authUser} onLogin={this.props.onLogin} />
+          <div className="header-right-items">
+            <HeaderMessageTo authUser={this.props.authUser} messageThread={this.props.messageThread} onChangeMessageThread={this.props.onChangeMessageThread} />
+            <HeaderLogin authUser={this.props.authUser} onLogin={this.props.onLogin} />
+          </div>
         </CollapsibleNav>
       </Navbar>
     );

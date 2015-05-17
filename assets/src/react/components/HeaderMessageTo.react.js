@@ -43,16 +43,6 @@ var Header = React.createClass({
     MessageStore.removeChangeListener(this._syncMessageThread);
   },
 
-        // <ul className="nav navbar-nav">
-        //   <li className="dropdown">
-        //     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Message To <span className="caret"></span></a>
-        //     <ul className="dropdown-menu" role="menu">
-        //       <li><Link to="message" params={{userId: "bob"}} onClick={this._onChangeMessageThreadClick}>bob</Link></li>
-        //       <li><Link to="message" params={{userId: "joe"}} onClick={this._onChangeMessageThreadClick}>joe</Link></li>
-        //     </ul>
-        //   </li>
-        // </ul>
-
   /**
    * @return {object}
    */

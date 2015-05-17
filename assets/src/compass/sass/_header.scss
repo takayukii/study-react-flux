@@ -2,34 +2,12 @@
 
 @import 'compass';
 
-$gray: #9d9d9d;
+.header-right-items {
+  float: right;
+}
 
-.sample-header {
-  .login {
-    padding-top: 10px;
-    input {
-      margin-right: 10px;
-    }
-    a {
-      color: $gray;
-      text-decoration: none;
-
-      &:hover {
-        color: white;
-      }
-    }
-  }
-  .brand {
-    padding-top: 13px;
-    margin-right: 5px;
-    a {
-      color: $gray;
-      text-decoration: none;
-      font-size: medium;
-
-      &:hover{
-        color: white;
-      }
-    }
+@media(max-width:767px){
+  .header-right-items {
+    float: none;
   }
 }
